@@ -19,7 +19,7 @@ public class IdleState : StateMachineBehaviour
     {
         float dist = Vector2.Distance(enemyTransform.position, enemy.target.position);
         if (dist <= 5f && dist >2f)
-            animator.SetBool("attack", true);
+            animator.SetBool("isFollow", true);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
