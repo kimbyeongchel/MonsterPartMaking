@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 {
     public Transform target;
     private SpriteRenderer render;
+    public System.Random rand;
 
     public BoxCollider2D box;
     public float atkCooltime = 1f;
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         atkDelay = 0f;
+        rand = new System.Random();
         box = GetComponent<BoxCollider2D>();
         render = GetComponent<SpriteRenderer>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -29,16 +31,6 @@ public class Enemy : MonoBehaviour
             atkDelay -= Time.deltaTime;
     }
 
-    public void BoxOn()
-    {
-        box.enabled = true;
-    }
-
-    public void BoxOff()
-    {
-        box.enabled = false;
-    }
-    
     public void DirectionEnemy(float target, float baseobj)
     {
         if (target > baseobj)
@@ -46,4 +38,6 @@ public class Enemy : MonoBehaviour
         else
             render.flipX = true;
     }
+
+
 }
