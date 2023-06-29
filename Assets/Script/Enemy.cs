@@ -38,12 +38,12 @@ public class Enemy : MonoBehaviour
     {
         box.enabled = false;
     }
-
+    
     public void DirectionEnemy(float target, float baseobj)
     {
         if (target > baseobj)
-            render.flipX = true;
-        else
             render.flipX = false;
+        else
+            render.flipX = true;
     }
 }
