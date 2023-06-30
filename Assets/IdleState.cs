@@ -1,4 +1,4 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -18,7 +18,7 @@ public class IdleState : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         float dist = Vector2.Distance(enemyTransform.position, enemy.target.position);
-        if (dist <= 5f && dist >1.5f)
+        if (dist <= 5f && dist >1f)
             animator.SetBool("isFollow", true);
     }
 
