@@ -18,8 +18,21 @@ public class IdleState : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         float dist = Vector2.Distance(enemyTransform.position, enemy.target.position);
-        if (dist <= 5f && dist >1f)
+        if (dist <= 10f && dist >3f)
             animator.SetBool("isFollow", true);
+        else if (enemy.atkDelay <= 0 && Vector2.Distance(enemyTransform.position, enemy.target.position) <= 3f)
+        {
+            if (enemy.rand.NextDouble() > 0.6)
+            {
+                animator.SetTrigger("attack1");
+            }
+            else
+                animator.SetTrigger("attack2");
+
+            enemy.atkDelay = enemy.atkCooltime;
+        }
+
+        enemy.DirectionEnemy(enemy.target.position.x, enemyTransform.position.x);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

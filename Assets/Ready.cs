@@ -16,27 +16,18 @@ public class Ready : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(enemyTransform.position, enemy.target.position) > 5f)
+        if (Vector2.Distance(enemyTransform.position, enemy.target.position) > 10f)
         {
             animator.SetBool("isFollow", false);
         }
-        else if (Vector2.Distance(enemyTransform.position, enemy.target.position) >= 2f)
+        else if (Vector2.Distance(enemyTransform.position, enemy.target.position) >= 3f)
         {
             enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.target.position, Time.deltaTime * enemy.moveSpeed);
         }
-        if (enemy.atkDelay <= 0 && Vector2.Distance(enemyTransform.position, enemy.target.position) < 2f)
+        else
         {
-            if (enemy.rand.NextDouble() > 0.6)
-            {
-                animator.SetTrigger("attack1");
-            }
-            else
-                animator.SetTrigger("attack2");
-
-            enemy.atkDelay = enemy.atkCooltime;
+            animator.SetBool("isFollow", false);
         }
-
-        enemy.DirectionEnemy(enemy.target.position.x, enemyTransform.position.x);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
