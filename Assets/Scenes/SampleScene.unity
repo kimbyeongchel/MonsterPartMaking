@@ -616,13 +616,13 @@ GameObject:
   m_Component:
   - component: {fileID: 478614545}
   - component: {fileID: 478614544}
-  - component: {fileID: 478614543}
   - component: {fileID: 478614542}
   - component: {fileID: 478614546}
   - component: {fileID: 478614547}
+  - component: {fileID: 478614548}
   m_Layer: 0
   m_Name: enemyMush
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -653,27 +653,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.27539784, y: 0.4137949}
   m_EdgeRadius: 0
---- !u!50 &478614543
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 478614541}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!212 &478614544
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -734,7 +713,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 478614541}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.23, y: -1.65, z: 0}
+  m_LocalPosition: {x: 7.23, y: -1.947, z: 0}
   m_LocalScale: {x: 7.8050547, y: 7.8050547, z: 7.8050547}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -779,6 +758,27 @@ MonoBehaviour:
   atkCooltime: 3
   atkDelay: 0
   moveSpeed: 1.5
+--- !u!50 &478614548
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478614541}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
