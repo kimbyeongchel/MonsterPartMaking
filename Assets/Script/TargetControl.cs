@@ -46,6 +46,8 @@ public class TargetControl : MonoBehaviour
         else
             curTime -= Time.deltaTime;
 
+
+        Jump();
     }
     public void Direction()
     {
@@ -63,5 +65,17 @@ public class TargetControl : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(pos.position, boxsize);
+    }
+
+    void Jump()
+    {
+
+        if (Input.GetKey(KeyCode.X))
+        {
+            rigid.AddForce(new Vector2(0, 50f));
+
+        }
+
+
     }
 }
