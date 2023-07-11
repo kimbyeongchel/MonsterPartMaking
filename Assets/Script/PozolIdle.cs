@@ -18,7 +18,9 @@ public class PozolIdle : StateMachineBehaviour
     {
         float dist = Vector2.Distance(enemyTransform.position, enemy.target.position);
         if (dist < 6f && dist >2f)
+        {
             animator.SetBool("isFollow", true);
+        }
         else if (enemy.atkDelay <= 0 && Vector2.Distance(enemyTransform.position, enemy.target.position) <= 2f)
         {
             animator.SetTrigger("attack");
@@ -26,7 +28,7 @@ public class PozolIdle : StateMachineBehaviour
             enemy.atkDelay = enemy.atkCooltime;
         }
 
-        enemy.DirectionEnemy(enemy.target.position.x, enemyTransform.position.x);
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

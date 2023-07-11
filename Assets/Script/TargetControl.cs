@@ -14,6 +14,7 @@ public class TargetControl : MonoBehaviour
     private float curTime;
     public Transform pos;
     public Vector2 boxsize;
+    
 
 
     void Start()

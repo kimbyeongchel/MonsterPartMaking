@@ -11,6 +11,8 @@ public class ArrowPozol : MonoBehaviour
     public Transform target;
     public float speed = 1f;
     private SpriteRenderer render;
+    private bool isAttacking = false;
+
 
     void Start()
     {
@@ -26,10 +28,18 @@ public class ArrowPozol : MonoBehaviour
         currentTime += Time.deltaTime;
         float distance = Vector2.Distance(transform.position, target.position);
 
-        if( distance < 8f && distance > 5f )
+
+        if (isAttacking)
+        {
+            // 공격 중일 때 위치 변경하지 않음
+            return;
+        }
+
+        if ( distance < 8f && distance > 5f )
         {
             ani.SetBool("isFollow", true);
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+            Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
         }
         else if( distance >= 8f)
         {
@@ -41,13 +51,22 @@ public class ArrowPozol : MonoBehaviour
             // 쿨타임이 지났을 때 화살 생성
             if (currentTime >= spawnRate)
             {
-                ani.SetTrigger("attack1");
-                SpawnArrow();
+                StartCoroutine(AttackRoutine());
                 currentTime = 0f; // 경과 시간 초기화
             }
 
         }
         
+    }
+
+    IEnumerator AttackRoutine()
+    {
+        isAttacking = true;
+        ani.SetTrigger("attack1");
+        yield return new WaitForSeconds(0.5f); // 공격 애니메이션 재생 시간
+        SpawnArrow();
+        yield return new WaitForSeconds(0.5f); // 추가 대기 시간 (조정 가능)
+        isAttacking = false;
     }
 
     public void DirectionEnemy(float target, float baseobj)
