@@ -72,7 +72,7 @@ public class TargetControl : MonoBehaviour
 
         if (Input.GetKey(KeyCode.X))
         {
-            rigid.AddForce(new Vector2(0, 50f));
+            rigid.AddForce(new Vector2(0, 5f));
 
         }
 

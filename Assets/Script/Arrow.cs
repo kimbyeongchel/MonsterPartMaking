@@ -27,8 +27,9 @@ public class Arrow : MonoBehaviour
         if(other.tag == "Player")
         {
             Debug.Log("player¿¡°Ô arrow ¸ÂÃã");
-            
+            DestroyArrow();
+
         }
-        DestroyArrow();
+        
     }
 }
