@@ -10,15 +10,18 @@ public class ArrowPozol : MonoBehaviour
     private Animator ani;
     public Transform target;
     public float speed = 1f;
+    private SpriteRenderer render;
 
     void Start()
     {
         ani = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        render = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
+        DirectionEnemy(target.transform.position.x, transform.position.x);
         // 경과 시간 업데이트
         currentTime += Time.deltaTime;
         float distance = Vector2.Distance(transform.position, target.position);
@@ -47,8 +50,16 @@ public class ArrowPozol : MonoBehaviour
         
     }
 
+    public void DirectionEnemy(float target, float baseobj)
+    {
+        if (target < baseobj)
+            render.flipX = true;
+        else
+            render.flipX = false;
+    }
+
     void SpawnArrow()
     {
-        Instantiate(arrowPrefab, transform.position, Quaternion.Euler(0, 0, 90f));
+        Instantiate(arrowPrefab, transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.identity);
     }
 }

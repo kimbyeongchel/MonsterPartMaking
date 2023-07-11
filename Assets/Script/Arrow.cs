@@ -5,16 +5,21 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     public float speed = 3f;
+    private Transform target;
+    private Vector3 direction;
+
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        direction = new Vector3(target.position.x - transform.position.x, 0f, 0f).normalized;
         Invoke("DestroyArrow", 6f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(transform.right * 1f * speed * Time.deltaTime);
+        transform.Translate(direction * speed * Time.deltaTime);
     }
 
     void DestroyArrow()
