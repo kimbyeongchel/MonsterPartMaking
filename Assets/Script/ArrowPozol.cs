@@ -5,7 +5,7 @@ using UnityEngine;
 public class ArrowPozol : MonoBehaviour
 {
     public GameObject arrowPrefab;
-    public float spawnRate = 1f; // 쿨타임 (초 단위)
+    public float spawnRate = 3f; // 쿨타임 (초 단위)
     private float currentTime = 0f; // 현재 경과 시간]
     private Animator ani;
     public Transform target;
