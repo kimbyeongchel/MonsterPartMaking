@@ -79,6 +79,6 @@ public class ArrowPozol : MonoBehaviour
 
     void SpawnArrow()
     {
-        Instantiate(arrowPrefab, transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.identity);
+        Instantiate(arrowPrefab, transform.position + new Vector3(0f, -0.2f, 0f), Quaternion.identity);
     }
 }
