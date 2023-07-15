@@ -99,7 +99,7 @@ public class BossPatternManager : MonoBehaviour
             laserRigidbody.velocity = targetPosition * projectileSpeed;
 
             Destroy(land, 3f);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             currentTime = 0f;
         }
     }
