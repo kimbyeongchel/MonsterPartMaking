@@ -108,12 +108,12 @@ TextureImporter:
       name: second_ori_attack_Spe-Sheet_0
       rect:
         serializedVersion: 2
-        x: 24
+        x: 23
         y: 0
-        width: 64
+        width: 92
         height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -129,12 +129,12 @@ TextureImporter:
       name: second_ori_attack_Spe-Sheet_1
       rect:
         serializedVersion: 2
-        x: 173
+        x: 152
         y: 0
-        width: 56
+        width: 92
         height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -150,12 +150,12 @@ TextureImporter:
       name: second_ori_attack_Spe-Sheet_2
       rect:
         serializedVersion: 2
-        x: 298
+        x: 281
         y: 0
-        width: 68
-        height: 60
+        width: 92
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -171,12 +171,12 @@ TextureImporter:
       name: second_ori_attack_Spe-Sheet_3
       rect:
         serializedVersion: 2
-        x: 427
+        x: 409
         y: 0
-        width: 60
-        height: 60
+        width: 92
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
