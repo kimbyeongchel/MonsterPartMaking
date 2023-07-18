@@ -22,12 +22,13 @@ public class IdleState : StateMachineBehaviour
             animator.SetBool("isFollow", true);
         else if (enemy.atkDelay <= 0 && Vector2.Distance(enemyTransform.position, enemy.target.position) <= 3f)
         {
-            if (enemy.rand.NextDouble() > 0.6)
-            {
-                animator.SetTrigger("attack1");
-            }
-            else
-                animator.SetTrigger("attack2");
+            //if (enemy.rand.NextDouble() > 0.6)
+            //{
+            //  animator.SetTrigger("attack1");
+            //}
+            // else
+            //    animator.SetTrigger("attack2");
+            animator.SetTrigger("die");
 
             enemy.atkDelay = enemy.atkCooltime;
         }
