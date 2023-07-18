@@ -388,6 +388,7 @@
 "Assets/SPUM/Sprite_Editor(Beta)/Script/SpriteSyncManager.cs"
 "Assets/SPUM/Sprite_Editor(Beta)/Script/SPUM_SpriteEditManager.cs"
 "Assets/SPUM/Sprite_SheetExporter(Beta)/Script/SPUM_Exporter.cs"
+"Assets/Tiger.cs"
 -langversion:9.0
 
 /deterministic
