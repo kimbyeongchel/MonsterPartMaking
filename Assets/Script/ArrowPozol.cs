@@ -8,10 +8,11 @@ public class ArrowPozol : MonoBehaviour
     public float spawnRate = 3f; // 쿨타임 (초 단위)
     private float currentTime = 0f; // 현재 경과 시간]
     private Animator ani;
-    public Transform target;
+    private Transform target;
     public float speed = 1f;
     private SpriteRenderer render;
     private bool isAttacking = false;
+    public Transform pos;
 
 
     void Start()
@@ -35,17 +36,17 @@ public class ArrowPozol : MonoBehaviour
             return;
         }
 
-        if ( distance < 8f && distance > 5f )
+        if ( distance < 14f && distance > 8f )
         {
             ani.SetBool("isFollow", true);
             Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
         }
-        else if( distance >= 8f)
+        else if( distance >= 14f)
         {
             ani.SetBool("isFollow", false);
         }
-        else if( distance <= 5f)
+        else if( distance <= 8f)
         {
             ani.SetBool("isFollow", false);
             // 쿨타임이 지났을 때 화살 생성
@@ -79,6 +80,6 @@ public class ArrowPozol : MonoBehaviour
 
     void SpawnArrow()
     {
-        Instantiate(arrowPrefab, transform.position + new Vector3(0f, -0.2f, 0f), Quaternion.identity);
+        Instantiate(arrowPrefab, pos.position, Quaternion.identity);
     }
 }

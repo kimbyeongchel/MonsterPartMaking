@@ -108,12 +108,12 @@ TextureImporter:
       name: first_die_test-Sheet_2_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 47
-        width: 241
-        height: 92
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+        x: 0
+        y: 0
+        width: 256
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -126,22 +126,22 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: first_die_test-Sheet_2_2
+      name: first_die_test-Sheet_2_1
       rect:
         serializedVersion: 2
-        x: 260
-        y: 43
-        width: 241
-        height: 92
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+        x: 256
+        y: 0
+        width: 256
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 218369a567654d84ebb331cf751948db
-      internalID: -360430211
+      spriteID: 2fae1db9c60ce05458d52b823cf44528
+      internalID: -1390124900
       vertices: []
       indices: 
       edges: []
@@ -159,7 +159,6 @@ TextureImporter:
     nameFileIdTable:
       first_die_test-Sheet_2_0: -1760403187
       first_die_test-Sheet_2_1: -1390124900
-      first_die_test-Sheet_2_2: -360430211
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

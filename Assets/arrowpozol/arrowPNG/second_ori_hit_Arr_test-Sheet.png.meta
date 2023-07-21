@@ -108,19 +108,19 @@ TextureImporter:
       name: second_ori_hit_Arr_test-Sheet_0
       rect:
         serializedVersion: 2
-        x: 28
+        x: 0
         y: 0
-        width: 60
-        height: 60
+        width: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c15cf21913e16cf459030b4021452054
-      internalID: 1572665518
+      spriteID: 93bc32aadd911fe4c97b98d9b093e5c6
+      internalID: -517559553
       vertices: []
       indices: 
       edges: []
@@ -129,19 +129,19 @@ TextureImporter:
       name: second_ori_hit_Arr_test-Sheet_1
       rect:
         serializedVersion: 2
-        x: 137
+        x: 129
         y: 0
-        width: 76
-        height: 68
+        width: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25b2d0064481f474c991bcb206bc9090
-      internalID: 599164898
+      spriteID: 682c808e1160ae747a4eeb3790b0ce4f
+      internalID: -129097491
       vertices: []
       indices: 
       edges: []
@@ -157,8 +157,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      second_ori_hit_Arr_test-Sheet_0: 1572665518
-      second_ori_hit_Arr_test-Sheet_1: 599164898
+      second_ori_hit_Arr_test-Sheet_0: -517559553
+      second_ori_hit_Arr_test-Sheet_1: -129097491
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

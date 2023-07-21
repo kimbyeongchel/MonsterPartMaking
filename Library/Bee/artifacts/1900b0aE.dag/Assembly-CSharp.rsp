@@ -345,6 +345,7 @@
 "Assets/Bandits - Pixel Art/Demo/Sensor_Bandit.cs"
 "Assets/Bandits - Pixel Art/Environment/NewSceneTemplatePipeline.cs"
 "Assets/Free Pixel Art Forest/Demo/MoveBackground.cs"
+"Assets/Pozol.cs"
 "Assets/Script/Arrow.cs"
 "Assets/Script/ArrowPozol.cs"
 "Assets/Script/Attack.cs"

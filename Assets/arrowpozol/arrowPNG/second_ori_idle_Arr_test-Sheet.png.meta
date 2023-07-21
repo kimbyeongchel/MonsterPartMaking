@@ -108,12 +108,12 @@ TextureImporter:
       name: second_ori_idle_Arr_test-Sheet_0
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 0
-        width: 56
-        height: 56
+        width: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -129,12 +129,12 @@ TextureImporter:
       name: second_ori_idle_Arr_test-Sheet_1
       rect:
         serializedVersion: 2
-        x: 161
+        x: 129
         y: 0
-        width: 56
-        height: 52
+        width: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -150,12 +150,12 @@ TextureImporter:
       name: second_ori_idle_Arr_test-Sheet_2
       rect:
         serializedVersion: 2
-        x: 290
+        x: 258
         y: 0
-        width: 56
-        height: 52
+        width: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -171,12 +171,12 @@ TextureImporter:
       name: second_ori_idle_Arr_test-Sheet_3
       rect:
         serializedVersion: 2
-        x: 419
+        x: 387
         y: 0
-        width: 56
-        height: 52
+        width: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

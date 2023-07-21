@@ -111,9 +111,9 @@ TextureImporter:
         x: 0
         y: 0
         width: 128
-        height: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -129,12 +129,12 @@ TextureImporter:
       name: second_ori_run_Spe_test-Sheet_1
       rect:
         serializedVersion: 2
-        x: 128
+        x: 127
         y: 0
         width: 128
-        height: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -150,12 +150,12 @@ TextureImporter:
       name: second_ori_run_Spe_test-Sheet_2
       rect:
         serializedVersion: 2
-        x: 256
+        x: 255
         y: 0
         width: 128
-        height: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -174,9 +174,9 @@ TextureImporter:
         x: 384
         y: 0
         width: 128
-        height: 128
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

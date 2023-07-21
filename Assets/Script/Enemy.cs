@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         atkDelay = 0f;
-        rand = new System.Random();
+        rand = new System.Random(); 
         box = GetComponent<BoxCollider2D>();
         render = GetComponent<SpriteRenderer>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -62,9 +62,6 @@ public class Enemy : MonoBehaviour
         }
 
     }
-
-  
-
 
     public void DirectionEnemy(float target, float baseobj)
     {
