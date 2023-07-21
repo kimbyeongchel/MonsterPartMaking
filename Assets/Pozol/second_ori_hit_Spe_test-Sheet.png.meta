@@ -108,10 +108,10 @@ TextureImporter:
       name: second_ori_hit_Spe_test-Sheet_0
       rect:
         serializedVersion: 2
-        x: 16
+        x: 0
         y: 0
-        width: 72
-        height: 60
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +129,10 @@ TextureImporter:
       name: second_ori_hit_Spe_test-Sheet_1
       rect:
         serializedVersion: 2
-        x: 141
+        x: 128
         y: 0
-        width: 72
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

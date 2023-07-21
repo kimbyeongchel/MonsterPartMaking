@@ -4509,7 +4509,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &2121739894
 Rigidbody2D:
   serializedVersion: 4
@@ -4587,8 +4587,8 @@ BoxCollider2D:
   m_Offset: {x: -0.01792115, y: 0.0049636066}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.49999997, y: 0.8}
-    oldSize: {x: 2.42, y: 0.93}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.4, y: 1.48}
     newSize: {x: 1.4, y: 1.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -4678,7 +4678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2123167186958418050, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2123167186958418109, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
       propertyPath: m_RootOrder
@@ -4690,7 +4690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2123167186958418109, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.19
+      value: -2.12
       objectReference: {fileID: 0}
     - target: {fileID: 2123167186958418109, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4723,6 +4723,26 @@ PrefabInstance:
     - target: {fileID: 2123167186958418109, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2123167186958418111, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
+      propertyPath: m_Size.x
+      value: 0.510571
+      objectReference: {fileID: 0}
+    - target: {fileID: 2123167186958418111, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5657605
+      objectReference: {fileID: 0}
+    - target: {fileID: 2123167186958418111, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.02471447
+      objectReference: {fileID: 0}
+    - target: {fileID: 2123167186958418111, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.35815233
+      objectReference: {fileID: 0}
+    - target: {fileID: 2123167187661501144, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.38
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}

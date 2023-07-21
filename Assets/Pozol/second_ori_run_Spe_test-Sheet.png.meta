@@ -108,10 +108,10 @@ TextureImporter:
       name: second_ori_run_Spe_test-Sheet_0
       rect:
         serializedVersion: 2
-        x: 40
+        x: 0
         y: 0
-        width: 52
-        height: 56
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +129,10 @@ TextureImporter:
       name: second_ori_run_Spe_test-Sheet_1
       rect:
         serializedVersion: 2
-        x: 157
+        x: 128
         y: 0
-        width: 56
-        height: 56
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +150,10 @@ TextureImporter:
       name: second_ori_run_Spe_test-Sheet_2
       rect:
         serializedVersion: 2
-        x: 294
+        x: 256
         y: 0
-        width: 48
-        height: 56
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,10 +171,10 @@ TextureImporter:
       name: second_ori_run_Spe_test-Sheet_3
       rect:
         serializedVersion: 2
-        x: 415
+        x: 384
         y: 0
-        width: 56
-        height: 56
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
