@@ -12,31 +12,28 @@ public class ArrowPozol : MonoBehaviour
     public float speed = 1f;
     private SpriteRenderer render;
     private bool isAttacking = false;
-    public Transform pos;
+    private float yDis = 0f;
+    public System.Random rand;
 
 
     void Start()
-    {
+    { // 플레이어 위치 y값을 기준으로 설정, 화살 쏘는 쿨타임 random 값으로 고정( 한 번 고정해서 그 값을 쓸 건지 매번 바꿀 건지 선택 )
+        // 맞을 때는 화살 발사 x 
         ani = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         render = GetComponent<SpriteRenderer>();
+        rand = new System.Random();
     }
 
     void Update()
     {
+        yDis = target.position.y - transform.position.y;
         DirectionEnemy(target.transform.position.x, transform.position.x);
         // 경과 시간 업데이트
         currentTime += Time.deltaTime;
         float distance = Vector2.Distance(transform.position, target.position);
 
-
-        if (isAttacking)
-        {
-            // 공격 중일 때 위치 변경하지 않음
-            return;
-        }
-
-        if ( distance < 14f && distance > 8f )
+        if (!isAttacking && distance < 14f && distance > 8f)
         {
             ani.SetBool("isFollow", true);
             Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
@@ -66,7 +63,7 @@ public class ArrowPozol : MonoBehaviour
         ani.SetTrigger("attack1");
         yield return new WaitForSeconds(0.5f); // 공격 애니메이션 재생 시간
         SpawnArrow();
-        yield return new WaitForSeconds(0.5f); // 추가 대기 시간 (조정 가능)
+        yield return new WaitForSeconds(1f); // 추가 대기 시간 (조정 가능)
         isAttacking = false;
     }
 
@@ -80,6 +77,6 @@ public class ArrowPozol : MonoBehaviour
 
     void SpawnArrow()
     {
-        Instantiate(arrowPrefab, pos.position, Quaternion.identity);
+        Instantiate(arrowPrefab, transform.position + new Vector3(0f, -0.564207f, 0f), Quaternion.identity);
     }
 }

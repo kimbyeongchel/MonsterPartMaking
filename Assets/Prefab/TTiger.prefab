@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 6711816785145629404}
   - component: {fileID: 6711816785145629395}
   - component: {fileID: 6711816785145629394}
+  - component: {fileID: 6711816785788347558}
   m_Layer: 0
   m_Name: TTiger
-  m_TagString: Boss
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,12 +79,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 920986745, guid: c10b9edfe28a18445ad0a5a03ed01378, type: 3}
+  m_Sprite: {fileID: 84067121, guid: afb2f396752e76b438304d8b377776a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.4, y: 1.48}
+  m_Size: {x: 2.56, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -102,18 +103,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01792115, y: 0.0049636066}
+  m_Offset: {x: -0.016215801, y: -0.05773735}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4, y: 1.48}
-    newSize: {x: 1.4, y: 1.48}
+    oldSize: {x: 2.56, y: 2.56}
+    newSize: {x: 2.56, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2223777, y: 1.4751184}
+  m_Size: {x: 1.348572, y: 1.4832938}
   m_EdgeRadius: 0
 --- !u!95 &6711816785145629404
 Animator:
@@ -152,7 +153,7 @@ MonoBehaviour:
   box: {fileID: 0}
   atkCooltime: 3
   atkDelay: 0
-  moveSpeed: 1
+  moveSpeed: 3
   pos: {fileID: 6711816785623792481}
   boxsize: {x: 1, y: 2}
 --- !u!50 &6711816785145629394
@@ -176,6 +177,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
+--- !u!114 &6711816785788347558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6711816785145629393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652fd59b7a90be648ab1323132c53ee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6711816785623792480
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +213,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6711816785623792480}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.68, y: -0.088, z: 0}
+  m_LocalPosition: {x: -0.865, y: 0.054, z: 0}
   m_LocalScale: {x: 0.30009854, y: 0.18577707, z: 0.1281221}
   m_ConstrainProportionsScale: 0
   m_Children: []

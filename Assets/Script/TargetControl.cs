@@ -15,7 +15,6 @@ public class TargetControl : MonoBehaviour
     public Transform pos;
     public Vector2 boxsize;
     private ArrowPozol arr;
-    
 
 
     void Start()
@@ -40,6 +39,14 @@ public class TargetControl : MonoBehaviour
                 foreach(Collider2D collider  in collider2Ds)
                 {
                     UnityEngine.Debug.Log(collider.tag);
+                    if( collider.tag == "Monster")
+                    {
+                        Animator monsterAnimator = collider.gameObject.GetComponent<Animator>();
+                        if (monsterAnimator != null)
+                        {
+                            monsterAnimator.SetTrigger("Hit");
+                        }
+                    }    
                 }
                 animator.SetTrigger("Attack");
                 curTime = coolTime;
@@ -47,7 +54,6 @@ public class TargetControl : MonoBehaviour
         }
         else
             curTime -= Time.deltaTime;
-
 
         Jump();
     }
