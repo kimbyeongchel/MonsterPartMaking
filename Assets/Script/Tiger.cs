@@ -28,30 +28,61 @@ public class Tiger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentTime += Time.deltaTime;
         float distance = Vector2.Distance(transform.position, target.position);
 
-        if (distance >5f)
+        if (!isAttacking && distance > 5f)
         {
-            ani.SetBool("isFollow", true);
-            Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            if (!isIdleAfterAttack)
+            {
+                DirectionEnemy(target.transform.position.x, transform.position.x);
+                ani.SetBool("isFollow", true);
+                Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            }
         }
-        else if (distance <= 5f && distance >3f)
+        else if (distance <= 5f && distance >4f)
         {
-            Debug.Log("중거리 도끼찍기!!!!");
             ani.SetBool("isFollow", false);
+            if (!isAttacking && !isIdleAfterAttack)
+            {
+                ani.SetBool("isFollow", false);
+                Debug.Log("중거리 도끼찍기!!!!");
+                DirectionEnemy(target.transform.position.x, transform.position.x);
+                StartCoroutine(AttackRoutine11());
+            }
         }
         else
         {
-            //if (enemy.rand.NextDouble() > 0.6)
-            //{
-            //  animator.SetTrigger("attack1");
-            //}
-            // else
-            //    animator.SetTrigger("attack2");
-            ani.SetTrigger("die");
+            ani.SetBool("isFollow", false);
+            if (!isAttacking && !isIdleAfterAttack)
+            {
+                DirectionEnemy(target.transform.position.x, transform.position.x);
+                StartCoroutine(AttackRoutine());
+            }
         }
 
+        IEnumerator AttackRoutine()
+        {
+            isAttacking = true;
+            ani.SetTrigger("attack1");
+            yield return new WaitForSeconds(0.5f); // 공격 애니메이션 재생 시간
+            isAttacking = false;
+            isIdleAfterAttack = true;
+            yield return new WaitForSeconds(idleTime); // 수정된 부분: 일정 시간 동안 idle 상태로 대기
+            isIdleAfterAttack = false;
+        }
+
+        IEnumerator AttackRoutine11()
+        {
+            isAttacking = true;
+            ani.SetTrigger("die");
+            yield return new WaitForSeconds(0.5f); // 공격 애니메이션 재생 시간
+            isAttacking = false;
+            isIdleAfterAttack = true;
+            yield return new WaitForSeconds(idleTime); // 수정된 부분: 일정 시간 동안 idle 상태로 대기
+            isIdleAfterAttack = false;
+        }
         //private void OnDrawGizmos() // 컴파일 할 때 자동 실행됨.
         //{
         //   Gizmos.color = Color.blue;
