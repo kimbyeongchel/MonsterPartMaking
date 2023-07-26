@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Pozol : MonoBehaviour
+public class Pozol : MonoBehaviour // 일단 해당 포졸에 hp 감소와 데미지 출력 테스트
 { 
+
     private Animator ani;
     private float currentTime = 0f;
     private Transform target;
@@ -15,6 +17,15 @@ public class Pozol : MonoBehaviour
     public BoxCollider2D box;
     public Vector2 boxsize;
     public float idleTime = 1f; // 공격 후 idle 시간
+    public GameObject hudDamageText;
+    public Transform hudPos;
+    public Slider monsterHealth;
+    public Transform HPPos;
+    public float HP = 100f;
+    private Slider Health;
+    public float SetTime;
+
+    public bool dead { get; protected set; }
 
     void Start()
     {
@@ -22,12 +33,15 @@ public class Pozol : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
         render = GetComponent<SpriteRenderer>();
         box = GetComponent<BoxCollider2D>();
+        Health = Instantiate(monsterHealth);
+        Health.value = HP;
     }
 
     void Update()
     {
-        float distance = Vector2.Distance(transform.position, target.position);
+        if(dead) return;
 
+        float distance = Vector2.Distance(transform.position, target.position);
         if (!isAttacking && distance < 8f && distance > 2f)
         {
             
@@ -97,6 +111,27 @@ public class Pozol : MonoBehaviour
             if (collider.tag == "Player")
                 UnityEngine.Debug.Log(collider.tag);
         }
+    }
 
+    public void TakeDamage(int damage)
+    {
+        GameObject hudText = Instantiate(hudDamageText);
+        hudText.transform.position = hudPos.position;
+        hudText.GetComponent<DamageText>().damage = damage;
+        HP -= 20;
+        Health.value = HP;
+        Debug.Log(damage);
+
+        if(HP == 0)
+        {
+            dead = true;
+            ani.SetTrigger("die");
+            Invoke("SetFalse", SetTime);
+        }
+    }
+
+    private void SetFalse()
+    {
+        Destroy(gameObject);
     }
 }

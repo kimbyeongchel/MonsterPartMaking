@@ -15,13 +15,14 @@ public class TargetControl : MonoBehaviour
     public Transform pos;
     public Vector2 boxsize;
     private ArrowPozol arr;
-
+    private Pozol po;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
+        po = FindObjectOfType<Pozol>();
     }
 
     // Update is called once per frame
@@ -41,6 +42,7 @@ public class TargetControl : MonoBehaviour
                     UnityEngine.Debug.Log(collider.tag);
                     if( collider.tag == "Monster")
                     {
+                        po.TakeDamage(20);
                         Animator monsterAnimator = collider.gameObject.GetComponent<Animator>();
                         if (monsterAnimator != null)
                         {
