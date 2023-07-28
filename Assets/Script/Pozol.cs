@@ -14,7 +14,6 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
     private SpriteRenderer render;
     public float speed = 1f;
     public Transform pos;
-    public BoxCollider2D box;
     public Vector2 boxsize;
     public float idleTime = 1f; // °ø°Ý ÈÄ idle ½Ã°£
     public GameObject hudDamageText;
@@ -32,7 +31,6 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         ani = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         render = GetComponent<SpriteRenderer>();
-        box = GetComponent<BoxCollider2D>();
         Health = Instantiate(monsterHealth);
         Health.value = HP;
     }
@@ -86,7 +84,7 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         Gizmos.DrawWireCube(pos.position, boxsize);
     }
 
-    public void DirectionEnemy(float target, float baseobj)
+    void DirectionEnemy(float target, float baseobj)
     {
         if (target < baseobj)
             render.flipX = true;
@@ -94,7 +92,7 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
             render.flipX = false;
     }
 
-    public void FindAnd()
+    void FindAnd()
     {
         if (render.flipX == false)
         {
@@ -113,22 +111,22 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         }
     }
 
-    public void TakeDamage(int damage)
-    {
-        GameObject hudText = Instantiate(hudDamageText);
-        hudText.transform.position = hudPos.position;
-        hudText.GetComponent<DamageText>().damage = damage;
-        HP -= 20;
-        Health.value = HP;
-        Debug.Log(damage);
+    ////public void TakeDamage(int damage)
+    ////{
+    ////    GameObject hudText = Instantiate(hudDamageText);
+    ////    hudText.transform.position = hudPos.position;
+    ////    hudText.GetComponent<DamageText>().damage = damage;
+    //    HP -= damage;
+    //    Health.value = HP;
+    //    Debug.Log(damage);
 
-        if(HP == 0)
-        {
-            dead = true;
-            ani.SetTrigger("die");
-            Invoke("SetFalse", SetTime);
-        }
-    }
+    //    if(HP == 0)
+    //    {
+    //        dead = true;
+    //        ani.SetTrigger("die");
+    //        Invoke("SetFalse", SetTime);
+    //    }
+    //}
 
     private void SetFalse()
     {

@@ -304,8 +304,8 @@
 "Assets/Bandits - Pixel Art/Demo/Bandit.cs"
 "Assets/Bandits - Pixel Art/Demo/Sensor_Bandit.cs"
 "Assets/Bandits - Pixel Art/Environment/NewSceneTemplatePipeline.cs"
+"Assets/DamageText.cs"
 "Assets/Free Pixel Art Forest/Demo/MoveBackground.cs"
-"Assets/Pozol.cs"
 "Assets/Script/Arrow.cs"
 "Assets/Script/ArrowPozol.cs"
 "Assets/Script/Attack.cs"
@@ -315,6 +315,8 @@
 "Assets/Script/FollowState.cs"
 "Assets/Script/IdleState.cs"
 "Assets/Script/land.cs"
+"Assets/Script/Living.cs"
+"Assets/Script/Pozol.cs"
 "Assets/Script/PozolAttack.cs"
 "Assets/Script/PozolIdle.cs"
 "Assets/Script/PozolRun.cs"
@@ -322,6 +324,7 @@
 "Assets/Script/Ready.cs"
 "Assets/Script/state.cs"
 "Assets/Script/TargetControl.cs"
+"Assets/Script/Tiger.cs"
 "Assets/SPUM/Sample/Script/PlayerManager.cs"
 "Assets/SPUM/Sample/Script/PlayerObj.cs"
 "Assets/SPUM/Script/Ect/SpritePos.cs"
@@ -349,7 +352,6 @@
 "Assets/SPUM/Sprite_Editor(Beta)/Script/SpriteSyncManager.cs"
 "Assets/SPUM/Sprite_Editor(Beta)/Script/SPUM_SpriteEditManager.cs"
 "Assets/SPUM/Sprite_SheetExporter(Beta)/Script/SPUM_Exporter.cs"
-"Assets/Tiger.cs"
 -langversion:9.0
 
 /deterministic

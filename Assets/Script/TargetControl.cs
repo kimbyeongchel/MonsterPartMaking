@@ -16,6 +16,7 @@ public class TargetControl : MonoBehaviour
     public Vector2 boxsize;
     private ArrowPozol arr;
     private Pozol po;
+    private Tiger ti;
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class TargetControl : MonoBehaviour
         render = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         po = FindObjectOfType<Pozol>();
+        ti = FindObjectOfType<Tiger>();
     }
 
     // Update is called once per frame
@@ -42,7 +44,7 @@ public class TargetControl : MonoBehaviour
                     UnityEngine.Debug.Log(collider.tag);
                     if( collider.tag == "Monster")
                     {
-                        po.TakeDamage(20);
+                        ti.TakeDamage(20);
                         Animator monsterAnimator = collider.gameObject.GetComponent<Animator>();
                         if (monsterAnimator != null)
                         {
