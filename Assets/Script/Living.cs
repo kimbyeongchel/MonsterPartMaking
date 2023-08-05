@@ -8,7 +8,10 @@ public class Living : MonoBehaviour
     public float startingHealth = 100f;
     public float health { get; protected set; }
     public bool dead { get; protected set; }
-    private Animator animator;
+    protected Animator animator; // protected로 변경
+    protected Transform pos; // protected로 변경
+    protected Vector2 boxsize; // protected로 변경
+    protected SpriteRenderer render; // protected로 변경
 
     private void Awake()
     {
@@ -32,9 +35,34 @@ public class Living : MonoBehaviour
         }
     }
 
+    public virtual void OnDrawGizmos() // 컴파일 할 때 자동 실행됨.
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(pos.position, boxsize);
+    }
+
+    public virtual void FindAnd()
+    {
+        if (render.flipX == false)
+        {
+            pos.localPosition = new Vector3(0.357f, pos.localPosition.y, 0f);
+        }
+        else
+        {
+            pos.localPosition = new Vector3(-0.357f, pos.localPosition.y, 0f);
+        }
+
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxsize, 0);
+        foreach (Collider2D collider in collider2Ds)
+        {
+            if (collider.tag == "Player")
+                UnityEngine.Debug.Log(collider.tag);
+        }
+    }
+
     private void TriggerHurt()
     {
-        animator.SetTrigger("isHurt");
+        animator.SetTrigger("Hit");
     }
 
     public virtual void Die()

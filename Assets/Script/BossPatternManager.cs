@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class BossPatternManager : MonoBehaviour
 {
-    public Transform bossTransform; // 현재 보스 위치
-    public float patternInterval = 2f; // 패턴 사이 시간
-    private float currentTime = 0f; // 현재 시간
-    private int patternIndex = 0; // 패턴 인덱스
+    public Transform bossTransform;
+    public float patternInterval = 2f;
+    private float currentTime = 0f;
+    private int patternIndex = 0;
     private Vector3[] attackPositions;
     private Animator bossAnimator;
     public System.Random rand;
@@ -56,7 +56,7 @@ public class BossPatternManager : MonoBehaviour
         }
     }
 
-    IEnumerator ExecutePatternAll()
+    IEnumerator ExecutePatternAll() // 전범위 공격
     {
         for (int i = 0; i < 3; i++)
         {
@@ -74,7 +74,7 @@ public class BossPatternManager : MonoBehaviour
         bossTransform.position = attackPositions[2];
     }
 
-    IEnumerator ExecurePatternCircle()
+    IEnumerator ExecurePatternCircle() // 원 공격
     {
         bossAnimator.SetBool("nono",false);
         warningEffectInstance = Instantiate(warningCircle, bossTransform.position+ new Vector3(-0.2f, -0.6f, 0f), Quaternion.identity);
@@ -87,7 +87,7 @@ public class BossPatternManager : MonoBehaviour
         bossAnimator.SetBool("nono", true);
     }
 
-    IEnumerator ShootWarningLand()
+    IEnumerator ShootWarningLand() // 투사체 발사
     {
         for (int i = 0; i < 3; i++)
         {
