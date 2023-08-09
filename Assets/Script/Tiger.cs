@@ -18,11 +18,13 @@ public class Tiger : MonoBehaviour
     private System.Random rand;
     private int posIndex = 0;
     public float HP = 100f;
-    public Scrollbar Health;
+    public Slider Health;
     public bool dead { get; protected set; }
     public bool isDead = false;
     private bool isFirst = false;
     private Vector3[] posx;
+    private Rigidbody2D rid;
+    private Vector3 direction;
 
     // Start is called before the first frame update
     void Start()
@@ -36,12 +38,16 @@ public class Tiger : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
         render = GetComponent<SpriteRenderer>();
         Health.value = HP;
-
+        rid = GetComponent<Rigidbody2D>();
+        direction = new Vector3(-1f, 0f, 0f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (dead)
+            return;
+
         currentTime += Time.deltaTime;
         float distance = Vector2.Distance(transform.position, target.position);
 
@@ -80,9 +86,20 @@ public class Tiger : MonoBehaviour
     IEnumerator AttackRoutine()
     {
         isAttacking = true;
+        if (render.flipX == false)
+            direction = new Vector3(0.5f, 0f, 0f);
+        else
+            direction = new Vector3(-0.5f, 0f, 0f);
+
+
         if (rand.NextDouble() > 0.5)
-        {
+        { 
             ani.SetTrigger("attack1");
+            transform.Translate(direction * 300f * Time.deltaTime);
+            yield return new WaitForSeconds(0.7f);
+            transform.Translate(direction * -300f * Time.deltaTime);
+
+            //lerp
             posIndex = 0;
         }
         else
@@ -158,7 +175,7 @@ public class Tiger : MonoBehaviour
         Health.value = HP;
         Debug.Log(damage);
 
-        if (HP == 0)
+        if (HP <= 0 && !dead)
         {
             dead = true;
             ani.SetTrigger("die");
