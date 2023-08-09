@@ -15,22 +15,19 @@ public class TargetControl : MonoBehaviour
     public Transform pos;
     public Vector2 boxsize;
     private ArrowPozol arr;
-    private Pozol po;
-    private Tiger ti;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
-        po = FindObjectOfType<Pozol>();
-        ti = FindObjectOfType<Tiger>();
     }
 
     // Update is called once per frame
     void Update()
     {
         moveX = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+        Direction();
 
         transform.position = new Vector2(transform.position.x + moveX, transform.position.y);
 
@@ -42,15 +39,22 @@ public class TargetControl : MonoBehaviour
                 foreach(Collider2D collider  in collider2Ds)
                 {
                     UnityEngine.Debug.Log(collider.tag);
-                    if( collider.tag == "Monster")
+                    if( collider.tag == "Tiger")
                     {
-                        ti.TakeDamage(20);
-                        Animator monsterAnimator = collider.gameObject.GetComponent<Animator>();
-                        if (monsterAnimator != null)
+                        Tiger tiger = collider.GetComponent<Tiger>();
+                        if (tiger != null)
                         {
-                            monsterAnimator.SetTrigger("Hit");
+                            tiger.TakeDamage(20);
                         }
-                    }    
+                    }
+                    else if (collider.tag == "Pozol")
+                    {
+                        Pozol pozol = collider.GetComponent<Pozol>();
+                        if (pozol != null)
+                        {
+                            pozol.TakeDamage(20);
+                        }
+                    }
                 }
                 animator.SetTrigger("Attack");
                 curTime = coolTime;
@@ -64,12 +68,12 @@ public class TargetControl : MonoBehaviour
     public void Direction()
     {
         if (Input.GetAxis("Horizontal") > 0)
-        { 
-            transform.localScale = new Vector3(1, 1, 1);
+        {
+            render.flipX = true;
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            render.flipX = false;
         }
     }
 

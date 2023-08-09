@@ -58,6 +58,7 @@ public class BossPatternManager : MonoBehaviour
 
     IEnumerator ExecutePatternAll() // 전범위 공격
     {
+        
         for (int i = 0; i < 3; i++)
         {
             patternIndex = Random.Range(0, 3);

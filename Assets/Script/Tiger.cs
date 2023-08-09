@@ -171,11 +171,14 @@ public class Tiger : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if(dead) return;
+
         HP -= damage;
         Health.value = HP;
         Debug.Log(damage);
+        ani.SetTrigger("Hit");
 
-        if (HP <= 0 && !dead)
+        if (HP <= 0)
         {
             dead = true;
             ani.SetTrigger("die");

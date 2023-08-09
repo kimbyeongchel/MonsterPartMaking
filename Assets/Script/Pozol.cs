@@ -18,11 +18,11 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
     public float idleTime = 1f; // °ø°Ý ÈÄ idle ½Ã°£
     public GameObject hudDamageText;
     public Transform hudPos;
-    public Slider monsterHealth;
+    public Slider Health;
     public Transform HPPos;
     public float HP = 100f;
-    private Slider Health;
     public float SetTime;
+    private bool takeAttack = false;
 
     public bool dead { get; protected set; }
 
@@ -31,7 +31,6 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         ani = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         render = GetComponent<SpriteRenderer>();
-        Health = Instantiate(monsterHealth);
         Health.value = HP;
     }
 
@@ -58,7 +57,7 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         else if (distance <= 2f)
         {
             ani.SetBool("isFollow", false);
-            if (!isAttacking && !isIdleAfterAttack) // °ø°Ý ÁßÀÌ°Å³ª ÀÌ¹Ì idle ÁßÀÌ¶ó¸é ½ÇÇàÇÏÁö ¾ÊÀ½
+            if (!isAttacking && !isIdleAfterAttack && !takeAttack) // °ø°Ý ÁßÀÌ°Å³ª ÀÌ¹Ì idle ÁßÀÌ¶ó¸é ½ÇÇàÇÏÁö ¾ÊÀ½
             {
                 DirectionEnemy(target.transform.position.x, transform.position.x);
                 ani.SetTrigger("attack");
@@ -111,22 +110,30 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         }
     }
 
-    ////public void TakeDamage(int damage)
-    ////{
-    ////    GameObject hudText = Instantiate(hudDamageText);
-    ////    hudText.transform.position = hudPos.position;
-    ////    hudText.GetComponent<DamageText>().damage = damage;
-    //    HP -= damage;
-    //    Health.value = HP;
-    //    Debug.Log(damage);
+    public void TakeDamage(int damage)
+    {
+        if(dead) return;
 
-    //    if(HP == 0)
-    //    {
-    //        dead = true;
-    //        ani.SetTrigger("die");
-    //        Invoke("SetFalse", SetTime);
-    //    }
-    //}
+        if (takeAttack)
+            return;
+
+        takeAttack = true;
+        GameObject hudText = Instantiate(hudDamageText);
+        hudText.transform.position = hudPos.position;
+        hudText.GetComponent<DamageText>().damage = damage;
+        HP -= damage;
+        Health.value = HP;
+        Debug.Log(damage);
+        ani.SetTrigger("Hit");
+
+        if (HP <= 0)
+        {
+            dead = true;
+            ani.SetTrigger("die");
+            Invoke("SetFalse", SetTime);
+        }
+        takeAttack = false;
+    }
 
     private void SetFalse()
     {

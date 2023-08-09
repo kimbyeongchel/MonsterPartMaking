@@ -4,9 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Boss
   - Monster
   - TigerAttack
+  - Tiger
+  - Pozol
+  - ArrowPozol
+  - Nolbu
   layers:
   - Default
   - TransparentFX
