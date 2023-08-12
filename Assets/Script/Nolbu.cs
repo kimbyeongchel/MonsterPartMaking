@@ -59,14 +59,13 @@ public class Nolbu : MonoBehaviour
 
     IEnumerator ExecutePatternAll() // 전범위 공격
     {
-        bossAnimator.SetTrigger("arrowUP");
         for (int i = 0; i < 3; i++)
         {
             patternIndex = Random.Range(0, 3);
             warningEffectInstance = Instantiate(warningEffectPrefab, attackPositions[patternIndex], Quaternion.identity);
             yield return new WaitForSeconds(0.5f);
             Destroy(warningEffectInstance);
-            bossAnimator.SetTrigger("arrowDOWN");
+            bossAnimator.SetTrigger("arrowUP");
 
             yield return new WaitForSeconds(0.5f);
             currentTime= 0f;
