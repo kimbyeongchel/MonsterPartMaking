@@ -10,6 +10,8 @@ TagManager:
   - Pozol
   - ArrowPozol
   - Nolbu
+  - Boss
+  - manim
   layers:
   - Default
   - TransparentFX

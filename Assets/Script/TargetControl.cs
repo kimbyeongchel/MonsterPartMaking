@@ -55,6 +55,30 @@ public class TargetControl : MonoBehaviour
                             pozol.TakeDamage(20);
                         }
                     }
+                    else if (collider.tag == "ArrowPozol")
+                    {
+                        ArrowPozol arrowPozol = collider.GetComponent<ArrowPozol>();
+                        if (arrowPozol != null)
+                        {
+                            arrowPozol.TakeDamage(20);
+                        }
+                    }
+                    else if (collider.tag == "manim")
+                    {
+                        Pozol pozol = collider.GetComponent<Pozol>();
+                        if (pozol != null)
+                        {
+                            pozol.TakeDamage(20);
+                        }
+                    }
+                    else if (collider.tag == "Nolbu")
+                    {
+                        Nolbu nolbu = collider.GetComponent<Nolbu>();
+                        if (nolbu != null)
+                        {
+                            nolbu.TakeDamage(1);
+                        }
+                    }
                 }
                 animator.SetTrigger("Attack");
                 curTime = coolTime;

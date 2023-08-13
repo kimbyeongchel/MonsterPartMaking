@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ArrowPozol : MonoBehaviour
 {
@@ -14,7 +15,13 @@ public class ArrowPozol : MonoBehaviour
     private bool isAttacking = false;
     private float yDis = 0f;
     public System.Random rand;
-
+    public GameObject hudDamageText;
+    public Transform hudPos;
+    public Slider Health;
+    public float HP = 100f;
+    private bool takeAttack = false;
+    public float SetTime;
+    public bool dead { get; protected set; }
 
     void Start()
     { // 플레이어 위치 y값을 기준으로 설정, 화살 쏘는 쿨타임 random 값으로 고정( 한 번 고정해서 그 값을 쓸 건지 매번 바꿀 건지 선택 )
@@ -23,10 +30,13 @@ public class ArrowPozol : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
         render = GetComponent<SpriteRenderer>();
         rand = new System.Random();
+        Health.value = HP;
     }
 
     void Update()
     {
+        if (dead) return;
+
         yDis = target.position.y - transform.position.y;
         DirectionEnemy(target.transform.position.x, transform.position.x);
         // 경과 시간 업데이트
@@ -73,6 +83,36 @@ public class ArrowPozol : MonoBehaviour
             render.flipX = true;
         else
             render.flipX = false;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (dead) return;
+
+        if (takeAttack)
+            return;
+
+        takeAttack = true;
+        GameObject hudText = Instantiate(hudDamageText);
+        hudText.transform.position = hudPos.position;
+        hudText.GetComponent<DamageText>().damage = damage;
+        HP -= damage;
+        Health.value = HP;
+        Debug.Log(damage);
+        ani.SetTrigger("Hit");
+
+        if (HP <= 0)
+        {
+            dead = true;
+            ani.SetTrigger("die");
+            Invoke("SetFalse", SetTime);
+        }
+        takeAttack = false;
+    }
+
+    private void SetFalse()
+    {
+        Destroy(gameObject);
     }
 
     void SpawnArrow()
