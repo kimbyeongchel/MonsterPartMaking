@@ -344,6 +344,7 @@
 "Assets/Bandits - Pixel Art/Demo/Bandit.cs"
 "Assets/Bandits - Pixel Art/Demo/Sensor_Bandit.cs"
 "Assets/Bandits - Pixel Art/Environment/NewSceneTemplatePipeline.cs"
+"Assets/box.cs"
 "Assets/DamageText.cs"
 "Assets/Free Pixel Art Forest/Demo/MoveBackground.cs"
 "Assets/Script/Arrow.cs"

@@ -24,8 +24,8 @@ public class Nolbu : MonoBehaviour
     public Transform HPPos;
     public float HP = 7f;
     public float speed = 2f;
-
-    public GameObject money;
+    private List<GameObject> activePrefabs;
+    public GameObject [] money;
     public GameObject warningEffectPrefab;
     private GameObject warningEffectInstance;
     public GameObject warningCircle;
@@ -33,11 +33,13 @@ public class Nolbu : MonoBehaviour
     public GameObject projectilePrefab;    // 발사할 오브젝트 프리팹
     public float projectileSpeed = 10f;     // 발사할 오브젝트의 속도
     private Transform playerTransform;      // 플레이어의 Transform
+    private Coroutine currentPatternCoroutine = null;
 
 
     void Start()
     {
         Health.value = HP;
+        activePrefabs = new List<GameObject>();
         rand = new System.Random();
         bossAnimator = GetComponent<Animator>();
         attackPositions = new Vector3[3];
@@ -55,19 +57,20 @@ public class Nolbu : MonoBehaviour
         currentTime += Time.deltaTime;
         if (currentTime >= patternInterval)
         {
+            activePrefabs.Clear();
             double value = rand.NextDouble();
             if (value > 0.2)
             {
-                //StartCoroutine(ShootWarningLand());
-                StartCoroutine(ExecutePatternAll());
+                currentPatternCoroutine = StartCoroutine(ShootWarningLand());
+
             }
-           // else if (0.7 >= value && value > 0.4)
-           // {
-            //    StartCoroutine(ExecutePatternAll());
-           // }
+            else if (0.7 >= value && value > 0.4)
+            {
+                currentPatternCoroutine = StartCoroutine(ExecutePatternAll());
+            }
             else
             {
-                StartCoroutine(ExecurePatternCircle());
+                currentPatternCoroutine = StartCoroutine(ExecurePatternCircle());
             }
             currentTime= 0f;
         }
@@ -75,38 +78,48 @@ public class Nolbu : MonoBehaviour
 
     IEnumerator ExecutePatternAll() // 전범위 공격
     {
+        activePrefabs.Clear();
         for (int i = 0; i < 3; i++)
         {
             patternIndex = Random.Range(0, 3);
             warningEffectInstance = Instantiate(warningEffectPrefab, attackPositions[patternIndex], Quaternion.identity);
+            activePrefabs.Add(warningEffectInstance);
             yield return new WaitForSeconds(0.5f);
             Destroy(warningEffectInstance);
+            activePrefabs.Remove(warningEffectInstance);
             bossAnimator.SetTrigger("arrowUP");
 
             yield return new WaitForSeconds(0.5f);
             currentTime= 0f;
         }
+
+        currentPatternCoroutine = null;
     }
 
     IEnumerator ExecurePatternCircle() // 원 공격
     {
+        activePrefabs.Clear();
         bossAnimator.SetBool("nono", false);
         warningEffectInstance = Instantiate(warningCircle, bossTransform.position, Quaternion.identity);
+        activePrefabs.Add(warningEffectInstance);
         yield return new WaitForSeconds(1f);
         Destroy(warningEffectInstance);
-
+        activePrefabs.Remove(warningEffectInstance);
         bossAnimator.SetTrigger("noise");
         currentTime= 0f;
         yield return new WaitForSeconds(0.5f);
         bossAnimator.SetBool("nono", true);
+
+        currentPatternCoroutine = null;
     }
 
     IEnumerator ShootWarningLand() // 투사체 발사
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
-            bossAnimator.SetTrigger("a1");
-            GameObject land = Instantiate(projectilePrefab, bossTransform.position, Quaternion.identity);
+            bossAnimator.SetTrigger("throw");
+            yield return new WaitForSeconds(0.2f);
+            GameObject land = Instantiate(projectilePrefab, bossTransform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
             Rigidbody2D laserRigidbody = land.GetComponent<Rigidbody2D>();
             Vector3 targetPosition = (playerTransform.position - bossTransform.position).normalized;
 
@@ -116,6 +129,8 @@ public class Nolbu : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             currentTime = 0f;
         }
+
+        currentPatternCoroutine = null;
     }
 
     IEnumerator TakeDamageRoutine(int damage)
@@ -132,32 +147,53 @@ public class Nolbu : MonoBehaviour
 
         if (count % 2 == 0)
         {
+            if (currentPatternCoroutine != null)
+            {
+                StopCoroutine(currentPatternCoroutine);
+                foreach (var prefab in activePrefabs)
+                {
+                    Destroy(prefab);
+                }
+                activePrefabs.Clear();
+                currentPatternCoroutine = null;
+            }
             bossAnimator.SetBool("hit", true);
             coll.enabled = false;
-            yield return new WaitForSeconds(0.8f);
-            bossAnimator.SetBool("hit", false);
+
+            yield return new WaitForSeconds(0.7f);
+            bossAnimator.SetBool("hit", false); 
+            yield return new WaitForSeconds(0.34f);
             transform.position = new Vector3(transform.position.x, transform.position.y + 1.2f, 0f);
-            SetActiveMoney();
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(4f);
+            
+            while (currentPatternCoroutine != null){ yield return new WaitForSeconds(1f); }
             coll.enabled = true;
             transform.position = new Vector3(transform.position.x, transform.position.y - 1.2f, 0f);
-            adActiveMoney();
+            adActiveMoney(0);
+
         }
         else
         {
-            bossAnimator.SetBool("isFollow", true);
-            patternIndex = Random.Range(0, 3);
-            direction = new Vector3(attackPositions[patternIndex].x - transform.position.x, 0f, 0f).normalized;
-            // 걷기 위의 세 좌표중 임의의 장소로 run
-            transform.Translate(direction * speed * Time.deltaTime);
-            yield return new WaitForSeconds(2f);
-            bossAnimator.SetBool("isFollow", false);
+            coll.enabled = false;
+            yield return new WaitForSeconds(1f);
+            coll.enabled = true;
         }
 
         if (HP <= 0)
         {
+            if (currentPatternCoroutine != null)
+            {
+                StopCoroutine(currentPatternCoroutine);
+
+                foreach (var prefab in activePrefabs)
+                {
+                    Destroy(prefab);
+                }
+                activePrefabs.Clear();
+                currentPatternCoroutine = null;
+            }
             dead = true;
-           // ani.SetTrigger("die");
+            bossAnimator.SetTrigger("die");
             Invoke("SetFalse", SetTime);
         }
         takeAttack = false;
@@ -179,13 +215,13 @@ public class Nolbu : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetActiveMoney()
+    public void SetActiveMoney(int index)
     {
-        money.SetActive(true);
+        money[index].SetActive(true);
     }
 
-    public void adActiveMoney()
+    public void adActiveMoney(int index)
     {
-        money.SetActive(false);
+        money[index].SetActive(false);
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - Nolbu
   - Boss
   - manim
+  - box
   layers:
   - Default
   - TransparentFX
