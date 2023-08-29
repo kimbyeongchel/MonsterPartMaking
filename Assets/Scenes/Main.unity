@@ -1091,6 +1091,7 @@ MonoBehaviour:
   - {fileID: 77199188}
   warningEffectPrefab: {fileID: 3688787305576119769, guid: b52a6745fc51dcc4aaf5aaffcf9f28b0, type: 3}
   warningCircle: {fileID: 1679017573092636224, guid: 61b6bcb80e1e8de46b3a81575f091308, type: 3}
+  coinBomb: {fileID: 8978186307469733585, guid: 2961228b83da5aa4987d3c218d9a0190, type: 3}
   projectilePrefab: {fileID: 967589447590298579, guid: b8a321544c1fb214e9bebae1da64d6f3, type: 3}
   projectileSpeed: 10
 --- !u!95 &497926596
