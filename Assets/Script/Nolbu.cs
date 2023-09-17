@@ -78,6 +78,7 @@ public class Nolbu : MonoBehaviour
             }
             currentTime = 0f;
         }
+        bossAnimator.SetBool("back", false);
     }
 
     public void DirectionEnemy(float target, float baseobj)
@@ -165,9 +166,35 @@ public class Nolbu : MonoBehaviour
         currentPatternCoroutine = null;
     }
 
-    IEumrator HitAnimation()
+    IEnumerator BombPattern()
     {
+        if (currentPatternCoroutine != null)
+        {
+            StopCoroutine(currentPatternCoroutine);
+        }
 
+        foreach (var prefab in activePrefabs)
+        {
+            Destroy(prefab);
+        }
+
+        yield return new WaitForSeconds(1f);
+        bossAnimator.SetTrigger("throw");
+        GameObject land = Instantiate(coinBomb, bossTransform.position + new Vector3(0f, 1f, 0f), Quaternion.identity);
+        yield return new WaitForSeconds(0.7f);
+        bossAnimator.SetBool("back", true);
+    }
+
+    IEnumerator SpecialPattern()
+    {
+        // 여기에 특수한 패턴을 실행하는 코드를 추가하세요.
+        // 예를 들어, 특정 공격이나 이펙트를 실행하는 등의 작업을 수행할 수 있습니다.
+        // 필요한 경우 WaitForSeconds 등을 사용하여 타이밍을 조절하세요.
+
+        yield return new WaitForSeconds(1f); // 예시: 1초 대기
+
+        // 특수한 패턴 실행 후에는 다시 표준 패턴으로 돌아가도록 할 수 있습니다.
+        currentPatternCoroutine = StartCoroutine(BombPattern());
     }
 
     IEnumerator TakeDamageRoutine(int damage)
@@ -182,7 +209,11 @@ public class Nolbu : MonoBehaviour
         Health.value = HP;
         Debug.Log(damage);
 
-        if (count % 2 == 0)
+        if (Health.value == 2) // HP가 2일 때 특수한 패턴 실행
+        {
+            StartCoroutine(SpecialPattern());
+        }
+        else if (count % 2 == 0)
         {
             if (currentPatternCoroutine != null)
             {
@@ -216,11 +247,6 @@ public class Nolbu : MonoBehaviour
             adActiveMoney(0);
             bossTransform.position -= new Vector3(0f, 1.3f, 0f);
         }
-        //else if(count % 5 == 0)
-        //{
-        //    bossAnimator.SetTrigger("throw");
-        //    GameObject land = Instantiate(coinBomb, bossTransform.position + new Vector3(0f, 1f, 0f), Quaternion.identity);
-        //}
         else
         {
             coll.enabled = false;
@@ -242,6 +268,7 @@ public class Nolbu : MonoBehaviour
                 activePrefabs.Clear();
                 currentPatternCoroutine = null;
             }
+            yield return new WaitForSeconds(2f);
 
             bossAnimator.SetTrigger("die");
             Invoke("SetFalse", SetTime);
