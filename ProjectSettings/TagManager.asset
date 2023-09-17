@@ -13,6 +13,7 @@ TagManager:
   - Boss
   - manim
   - box
+  - ground
   layers:
   - Default
   - TransparentFX

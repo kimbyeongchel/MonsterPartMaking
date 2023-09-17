@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½ºÆ®
 { 
-
     private Animator ani;
     private float currentTime = 0f;
     private Transform target;
@@ -41,7 +40,6 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         float distance = Vector2.Distance(transform.position, target.position);
         if (!isAttacking && distance < 8f && distance > 2f)
         {
-            
             if (!isIdleAfterAttack)
             {
                 DirectionEnemy(target.transform.position.x, transform.position.x);
@@ -75,7 +73,6 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         yield return new WaitForSeconds(idleTime); // ¼öÁ¤µÈ ºÎºÐ: ÀÏÁ¤ ½Ã°£ µ¿¾È idle »óÅÂ·Î ´ë±â
         isIdleAfterAttack = false;
     }
-
 
     private void OnDrawGizmos() // ÄÄÆÄÀÏ ÇÒ ¶§ ÀÚµ¿ ½ÇÇàµÊ.
     {
@@ -112,11 +109,16 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
 
     public void TakeDamage(int damage)
     {
-        if(dead) return;
+        if (dead) return;
 
         if (takeAttack)
             return;
 
+        StartCoroutine(TakeHit(damage));
+    }
+
+    IEnumerator TakeHit(int damage)
+    {
         takeAttack = true;
         GameObject hudText = Instantiate(hudDamageText);
         hudText.transform.position = hudPos.position;
@@ -124,7 +126,11 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
         HP -= damage;
         Health.value = HP;
         Debug.Log(damage);
-        ani.SetTrigger("Hit");
+
+        if (HP == 40)
+        {
+            ani.SetTrigger("Hit");
+        }
 
         if (HP <= 0)
         {
@@ -133,6 +139,7 @@ public class Pozol : MonoBehaviour // ÀÏ´Ü ÇØ´ç Æ÷Á¹¿¡ hp °¨¼Ò¿Í µ¥¹ÌÁö Ãâ·Â Å×½
             Invoke("SetFalse", SetTime);
         }
         takeAttack = false;
+        yield return new WaitForEndOfFrame();
     }
 
     private void SetFalse()
