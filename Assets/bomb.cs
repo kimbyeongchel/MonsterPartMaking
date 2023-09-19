@@ -82,6 +82,8 @@ public class bomb : MonoBehaviour
             if (collision.gameObject.CompareTag("ground") || collision.gameObject.CompareTag("Player"))
             {
                 ani.SetTrigger("bomb");
+                transform.localScale = new Vector3(2f, 2f, 0f);
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
                 Explode();
             }
         }
