@@ -199,7 +199,6 @@ public class Nolbu : MonoBehaviour
 
     IEnumerator TakeDamageRoutine(int damage)
     {
-        count++;
         takeAttack = true;
 
         GameObject hudText = Instantiate(hudDamageText);
@@ -209,12 +208,12 @@ public class Nolbu : MonoBehaviour
         Health.value = HP;
         Debug.Log(damage);
 
-        if (Health.value == 2) // HP가 2일 때 특수한 패턴 실행
+        if (Health.value == 1) // HP가 2일 때 특수한 패턴 실행
         {
             StartCoroutine(SpecialPattern());
         }
-        else if (count % 2 == 0)
-        {
+        else if (Health.value % 3 == 2)
+        { // 피가 2일때, 폭탄 던지기 / 피가 3씩 남았을 때 ( 4, 1 ) 그로기 상태
             if (currentPatternCoroutine != null)
             {
                 StopCoroutine(currentPatternCoroutine);
@@ -224,7 +223,7 @@ public class Nolbu : MonoBehaviour
             {
                 Destroy(prefab);
             }
-            
+
             activePrefabs.Clear();
             currentPatternCoroutine = null;
             coll.enabled = false;
@@ -243,7 +242,7 @@ public class Nolbu : MonoBehaviour
             }
             coll.enabled = true;
             yield return new WaitForSeconds(1f);
-            
+
             adActiveMoney(0);
             bossTransform.position -= new Vector3(0f, 1.3f, 0f);
         }
@@ -253,7 +252,7 @@ public class Nolbu : MonoBehaviour
             yield return new WaitForSeconds(1f);
             coll.enabled = true;
         }
-        
+
         if (Health.value <= 0f)
         {
             dead = true;

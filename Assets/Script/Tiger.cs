@@ -128,7 +128,6 @@ public class Tiger : MonoBehaviour
 
     void OnDrawGizmosSelected() // 에디터에서 해당 오브젝트를 선택했을 때에만 실행되도록 변경
     {
-
         for (int i = 0; i < pos.Length; i++)
         {
             Gizmos.color = Color.red;
