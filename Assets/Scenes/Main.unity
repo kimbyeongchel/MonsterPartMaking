@@ -2787,7 +2787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1700476725
 Animator:
   serializedVersion: 5
@@ -3405,6 +3405,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\uD638\uB791\uC774"
       objectReference: {fileID: 0}
+    - target: {fileID: 932321984940335380, guid: 15420b624cbbef8479a28749d6377698, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 932321984940335386, guid: 15420b624cbbef8479a28749d6377698, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3447,6 +3451,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 932321984940335386, guid: 15420b624cbbef8479a28749d6377698, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624488490607726323, guid: 15420b624cbbef8479a28749d6377698, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624488490607726323, guid: 15420b624cbbef8479a28749d6377698, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
