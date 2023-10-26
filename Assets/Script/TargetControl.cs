@@ -14,7 +14,7 @@ public class TargetControl : MonoBehaviour
     private float curTime;
     public Transform pos;
     public Vector2 boxsize;
-    private ArrowPozol arr;
+    private RangedMonster arr;
 
     void Start()
     {
@@ -49,7 +49,7 @@ public class TargetControl : MonoBehaviour
                     }
                     else if (collider.tag == "Pozol")
                     {
-                        Pozol pozol = collider.GetComponent<Pozol>();
+                        NormalMonster pozol = collider.GetComponent<NormalMonster>();
                         if (pozol != null)
                         {
                             pozol.TakeDamage(20);
@@ -57,7 +57,7 @@ public class TargetControl : MonoBehaviour
                     }
                     else if (collider.tag == "ArrowPozol")
                     {
-                        ArrowPozol arrowPozol = collider.GetComponent<ArrowPozol>();
+                        RangedMonster arrowPozol = collider.GetComponent<RangedMonster>();
                         if (arrowPozol != null)
                         {
                             arrowPozol.TakeDamage(20);
@@ -65,7 +65,7 @@ public class TargetControl : MonoBehaviour
                     }
                     else if (collider.tag == "manim")
                     {
-                        Pozol pozol = collider.GetComponent<Pozol>();
+                        NormalMonster pozol = collider.GetComponent<NormalMonster>();
                         if (pozol != null)
                         {
                             pozol.TakeDamage(20);
