@@ -14,6 +14,8 @@ TagManager:
   - manim
   - box
   - ground
+  - GruzMother
+  - NewNolbu
   layers:
   - Default
   - TransparentFX
