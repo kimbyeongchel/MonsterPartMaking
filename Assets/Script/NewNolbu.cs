@@ -5,8 +5,8 @@ using UnityEngine;
 public class NewNolbu : MonoBehaviour
 {
     public bool dead { get; protected set; }
+    public Animator bossAni;
     private System.Random rand;
-    private Animator bossAni;
     private SpriteRenderer render;
     private int hitCount = 0;
     private Transform playerTransform;
@@ -16,6 +16,8 @@ public class NewNolbu : MonoBehaviour
     public GameObject RectWarning;
     public GameObject warningCircle;
     public GameObject arrowRains;
+
+    public Coroutine currentPatternCoroutine = null;
 
     void Start()
     {
@@ -47,24 +49,40 @@ public class NewNolbu : MonoBehaviour
         //해당 Update에서 count를 모니터링하여 hit 동작 실행(= anystate를 통한 hit trigger 실행 )
     }
 
+    //idle 상태에서의 작동방식 조절
+    public void IdleState()
+    {
+        double value = rand.NextDouble();
+        if (value > 0 && value <= 0.4)
+        {
+            bossAni.SetTrigger("arrowUP");
+        }
+        else if (0.7 >= value && value > 0.4)
+        {
+            Debug.Log("num2");
+        }
+        else
+        {
+            Debug.Log("num3");
+        }
+    }
+
+
     //사망 시 동작하는 함수
     void Die()
     {
 
     }
 
-    //공격 패턴 1
-    IEnumerator RangeAll() // 전범위 공격
+    //공격 패턴 1 + 여기에 화살 오브젝트들 삭제하는 거랑 Hit 시에 남아있는 프리팹들 다 삭제해야됨.
+    public IEnumerator RangeAll() // 전범위 공격
     {
-        for (int i = 0; i < 3; i++)
-        {
             patternIndex = Random.Range(0, 3);
             GameObject warningInstance = Instantiate(RectWarning, attackPositions[patternIndex], Quaternion.identity);
             yield return new WaitForSeconds(0.5f);
             Destroy(warningInstance);
-            bossAni.SetTrigger("arrowUP");
+            bossAni.SetBool("arrowRe", true);
             arrowRain(patternIndex);
-        }
     }
 
     void arrowRain(int patternIndex)
@@ -80,5 +98,11 @@ public class NewNolbu : MonoBehaviour
 
     //hit 시 동작하는 함수. 함수 내에 전체적인 스턴 상태 변수 수정, Transform 위치 이동 및 금은보화 소환
 
-    //데미지 입는 함수(= takeDamage)
+    //데미지 입는 함수(= takeDamage) 일단 예비용 가져옴
+    public void TakeDamage(int damage)
+    {
+        if (dead) return;
+
+        bossAni.SetTrigger("hit");
+    }
 }

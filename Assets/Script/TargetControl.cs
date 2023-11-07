@@ -71,9 +71,9 @@ public class TargetControl : MonoBehaviour
                             pozol.TakeDamage(20);
                         }
                     }
-                    else if (collider.tag == "Nolbu")
+                    else if (collider.tag == "NewNolbu")
                     {
-                        Nolbu nolbu = collider.GetComponent<Nolbu>();
+                        NewNolbu nolbu = collider.GetComponent<NewNolbu>();
                         if (nolbu != null)
                         {
                             nolbu.TakeDamage(1);
