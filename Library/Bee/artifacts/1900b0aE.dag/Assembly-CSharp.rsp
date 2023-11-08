@@ -341,6 +341,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
+"Assets/arrowRain.cs"
 "Assets/Bandits - Pixel Art/Demo/Bandit.cs"
 "Assets/Bandits - Pixel Art/Demo/Sensor_Bandit.cs"
 "Assets/Bandits - Pixel Art/Environment/NewSceneTemplatePipeline.cs"
@@ -350,9 +351,9 @@
 "Assets/Gruz Mother Final/Script/GruzMother_AttackUpNDown.cs"
 "Assets/Gruz Mother Final/Script/GruzMother_Idel.cs"
 "Assets/Gruz Mother Final/Script/PlayerMove.cs"
-"Assets/Nolbuidle.cs"
 "Assets/Nolbu_arrow.cs"
 "Assets/Nolbu_hit.cs"
+"Assets/Nolbu_idle.cs"
 "Assets/Script/Arrow.cs"
 "Assets/Script/bomb.cs"
 "Assets/Script/Bossmouse.cs"
@@ -395,6 +396,7 @@
 "Assets/SPUM/Sprite_Editor(Beta)/Script/SpriteSyncManager.cs"
 "Assets/SPUM/Sprite_Editor(Beta)/Script/SPUM_SpriteEditManager.cs"
 "Assets/SPUM/Sprite_SheetExporter(Beta)/Script/SPUM_Exporter.cs"
+"Assets/warningCircle.cs"
 -langversion:9.0
 
 /deterministic

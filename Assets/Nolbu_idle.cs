@@ -10,6 +10,7 @@ public class Nolbu_idle : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         nolbu = GameObject.FindGameObjectWithTag("NewNolbu").GetComponent<NewNolbu>();
+        currentTime = 0f;
     }
 
 
@@ -17,7 +18,7 @@ public class Nolbu_idle : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         currentTime += Time.deltaTime;
-        if (currentTime >=3f)
+        if (currentTime >=1f)
         {
             nolbu.IdleState();
             currentTime = 0f;
