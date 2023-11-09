@@ -23,18 +23,18 @@ public class NewNolbu : MonoBehaviour
 
     void Start()
     {
-        //ÃÊ±â ¼³Á¤ »ç¿ë
+        //ì´ˆê¸° ì„¤ì • ì‚¬ìš©
         bossAni = GetComponent<Animator>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         render = GetComponent<SpriteRenderer>();
         rand = new System.Random();
-        hitCount = 0; // arrowRain 3¹ø ¹İº¹À» À§ÇÑ Ä«¿îÅÍ º¯¼ö
+        hitCount = 0; // arrowRain 3ë²ˆ ë°˜ë³µì„ ìœ„í•œ ì¹´ìš´í„° ë³€ìˆ˜
 
         activePrefabs = new List<GameObject>();
         attackPositions = new Vector3[3];
-        attackPositions[0] = new Vector3(0.03f, -0.55f, 0f); // °¡¿îµ¥ À§Ä¡
-        attackPositions[1] = new Vector3(-5.92f, -0.55f, 0f); // ¿ŞÂÊ À§Ä¡
-        attackPositions[2] = new Vector3(5.95f, -0.55f, 0f); // ¿À¸¥ÂÊ À§Ä¡
+        attackPositions[0] = new Vector3(0.03f, -0.55f, 0f); // ê°€ìš´ë° ìœ„ì¹˜
+        attackPositions[1] = new Vector3(-5.92f, -0.55f, 0f); // ì™¼ìª½ ìœ„ì¹˜
+        attackPositions[2] = new Vector3(5.95f, -0.55f, 0f); // ì˜¤ë¥¸ìª½ ìœ„ì¹˜
     }
 
     void Update()
@@ -47,11 +47,11 @@ public class NewNolbu : MonoBehaviour
         {
 
         }
-        // º¸½º »óÅÂ¸¦ ÆÇº°ÇÏ¿© ½ºÅÏ Áß, »ç¸Á Ã³¸®, °ø°İ Áß µî »óÅÂ Ç¥Çö ¹× Ã¼Å©
-        //ÇØ´ç Update¿¡¼­ count¸¦ ¸ğ´ÏÅÍ¸µÇÏ¿© hit µ¿ÀÛ ½ÇÇà(= anystate¸¦ ÅëÇÑ hit trigger ½ÇÇà ) hp·Î ÇØµµ µÉµí?
+        // ë³´ìŠ¤ ìƒíƒœë¥¼ íŒë³„í•˜ì—¬ ìŠ¤í„´ ì¤‘, ì‚¬ë§ ì²˜ë¦¬, ê³µê²© ì¤‘ ë“± ìƒíƒœ í‘œí˜„ ë° ì²´í¬
+        //í•´ë‹¹ Updateì—ì„œ countë¥¼ ëª¨ë‹ˆí„°ë§í•˜ì—¬ hit ë™ì‘ ì‹¤í–‰(= anystateë¥¼ í†µí•œ hit trigger ì‹¤í–‰ ) hpë¡œ í•´ë„ ë ë“¯?
     }
 
-    //idle »óÅÂ¿¡¼­ÀÇ ÀÛµ¿¹æ½Ä Á¶Àı
+    //idle ìƒíƒœì—ì„œì˜ ì‘ë™ë°©ì‹ ì¡°ì ˆ
     public void IdleState()
     {
         double value = rand.NextDouble();
@@ -70,14 +70,14 @@ public class NewNolbu : MonoBehaviour
     }
 
 
-    //»ç¸Á ½Ã µ¿ÀÛÇÏ´Â ÇÔ¼ö
+    //ì‚¬ë§ ì‹œ ë™ì‘í•˜ëŠ” í•¨ìˆ˜
     void Die()
     {
 
     }
 
-    //°ø°İ ÆĞÅÏ 1
-    public IEnumerator RangeAll() // Àü¹üÀ§ °ø°İ
+    //ê³µê²© íŒ¨í„´ 1
+    public IEnumerator RangeAll() // ì „ë²”ìœ„ ê³µê²©
     {
         patternIndex = Random.Range(0, 3);
         warningInstance = Instantiate(RectWarning, attackPositions[patternIndex], Quaternion.identity);
@@ -94,14 +94,14 @@ public class NewNolbu : MonoBehaviour
         GameObject rain = Instantiate(arrowRains, attackPositions[patternIndex] + new Vector3(0f, 1.12f, 0f), Quaternion.identity);
     }
 
-    //°ø°İ ÆĞÅÏ 2
-    public IEnumerator NoiseCircle() // ¿ø °ø°İ
+    //ê³µê²© íŒ¨í„´ 2
+    public IEnumerator NoiseCircle() // ì› ê³µê²©
     {
-        //¿©±â¿¡ µ¥¹ÌÁö ÁÖ´Â ÄÚµå ÀÛ¼º ¿äÇÔ
+        //ì—¬ê¸°ì— ë°ë¯¸ì§€ ì£¼ëŠ” ì½”ë“œ ì‘ì„± ìš”í•¨
         yield return new WaitForSeconds(1f);
     }
 
-    public IEnumerator warningCircle() // ¿ø °ø°İ ÁÖÀÇ
+    public IEnumerator warningCircle() // ì› ê³µê²© ì£¼ì˜
     {
         warningInstance = Instantiate(circleWarning, transform.position, Quaternion.identity);
         activePrefabs.Add(warningInstance);
@@ -112,13 +112,13 @@ public class NewNolbu : MonoBehaviour
     }
 
 
-    //°ø°İ ÆĞÅÏ 3
+    //ê³µê²© íŒ¨í„´ 3
 
-    //Áï»ç ÆĞÅÏ ( ±×³É ÆøÅº ¼ÒÈ¯ => ÆøÅº ÀÚÃ¼ÀÇ ½ºÅ©¸³Æ®·Î ³¯¶ó°¨ )
+    //ì¦‰ì‚¬ íŒ¨í„´ ( ê·¸ëƒ¥ í­íƒ„ ì†Œí™˜ => í­íƒ„ ìì²´ì˜ ìŠ¤í¬ë¦½íŠ¸ë¡œ ë‚ ë¼ê° )
 
-    //hit ½Ã µ¿ÀÛÇÏ´Â ÇÔ¼ö. ÇÔ¼ö ³»¿¡ ÀüÃ¼ÀûÀÎ ½ºÅÏ »óÅÂ º¯¼ö ¼öÁ¤, Transform À§Ä¡ ÀÌµ¿ ¹× ±İÀºº¸È­ ¼ÒÈ¯
+    //hit ì‹œ ë™ì‘í•˜ëŠ” í•¨ìˆ˜. í•¨ìˆ˜ ë‚´ì— ì „ì²´ì ì¸ ìŠ¤í„´ ìƒíƒœ ë³€ìˆ˜ ìˆ˜ì •, Transform ìœ„ì¹˜ ì´ë™ ë° ê¸ˆì€ë³´í™” ì†Œí™˜
 
-    //µ¥¹ÌÁö ÀÔ´Â ÇÔ¼ö(= takeDamage) ÀÏ´Ü ¿¹ºñ¿ë °¡Á®¿È
+    //ë°ë¯¸ì§€ ì…ëŠ” í•¨ìˆ˜(= takeDamage) ì¼ë‹¨ ì˜ˆë¹„ìš© ê°€ì ¸ì˜´
     public void TakeDamage(int damage)
     {
         if (dead) return;
@@ -126,7 +126,9 @@ public class NewNolbu : MonoBehaviour
         bossAni.SetTrigger("hit");
     }
 
-    public void RemovePrefabs() // È­¸é »óÀÇ ÇÁ¸®ÆÕµé »èÁ¦
+    // hit ì‹œì— ë‚˜ì˜¤ëŠ” ê¸ˆì€ë³´í™” ìƒìì™€ í•¨ê»˜ ëª¬ìŠ¤í„°ì˜ ë¬´ì ìƒíƒœë¥¼ ìœ„í•œ collider2D box ë¹„í™œì„±í™”, ìœ„ì¹˜ ì¡°ì • í•¨ìˆ˜ í•„ìš”
+
+    public void RemovePrefabs() // í™”ë©´ ìƒì˜ í”„ë¦¬íŒ¹ë“¤ ì‚­ì œ
     {
         foreach (var prefab in activePrefabs)
         {
