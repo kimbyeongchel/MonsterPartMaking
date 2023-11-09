@@ -18,7 +18,7 @@ public class Nolbu_idle : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         currentTime += Time.deltaTime;
-        if (currentTime >=1f)
+        if (currentTime >=1.5f)
         {
             nolbu.IdleState();
             currentTime = 0f;

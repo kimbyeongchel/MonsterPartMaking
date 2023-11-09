@@ -10,16 +10,21 @@ public class NewNolbu : MonoBehaviour
     private System.Random rand;
     private SpriteRenderer render;
     private Transform playerTransform;
+    private Collider2D coll;
 
     public int patternIndex;
     private Vector3[] attackPositions;
     private GameObject warningInstance;
     public GameObject RectWarning;
     public GameObject circleWarning;
+    public GameObject coin;
     public GameObject arrowRains;
 
-    public List<GameObject> activePrefabs;
+    public List<GameObject> activePrefabs; // 화면 상의 프리팹들
+    public GameObject[] money; // 금은보화와 사망 시 나오는 상자
     public Coroutine currentPatternCoroutine = null;
+
+    public float radius;
 
     void Start()
     {
@@ -28,6 +33,7 @@ public class NewNolbu : MonoBehaviour
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         render = GetComponent<SpriteRenderer>();
         rand = new System.Random();
+        coll = GetComponent<Collider2D>();
         hitCount = 0; // arrowRain 3번 반복을 위한 카운터 변수
 
         activePrefabs = new List<GameObject>();
@@ -65,7 +71,7 @@ public class NewNolbu : MonoBehaviour
         }
         else
         {
-            Debug.Log("num3");
+            bossAni.SetTrigger("patternThree");
         }
     }
 
@@ -95,13 +101,7 @@ public class NewNolbu : MonoBehaviour
     }
 
     //공격 패턴 2
-    public IEnumerator NoiseCircle() // 원 공격
-    {
-        //여기에 데미지 주는 코드 작성 요함
-        yield return new WaitForSeconds(1f);
-    }
-
-    public IEnumerator warningCircle() // 원 공격 주의
+    public IEnumerator warningCircle() // 원 공격 주의 + 데미지 인식은 애니메이션에 데미지 함수 FInd 추가
     {
         warningInstance = Instantiate(circleWarning, transform.position, Quaternion.identity);
         activePrefabs.Add(warningInstance);
@@ -111,12 +111,38 @@ public class NewNolbu : MonoBehaviour
         bossAni.SetTrigger("noise");
     }
 
-
     //공격 패턴 3
+    public IEnumerator ShootCoin() // 투사체 발사, coin 스크립트에서 데미지 및 삭제 자동 실행
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            yield return new WaitForSeconds(0.2f);
+            warningInstance = Instantiate(coin, transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+            if (i != 4)
+            {
+                yield return new WaitForSeconds(0.6f);
+            }
+        }
+        bossAni.SetTrigger("endCoin");
+    }
 
     //즉사 패턴 ( 그냥 폭탄 소환 => 폭탄 자체의 스크립트로 날라감 )
 
     //hit 시 동작하는 함수. 함수 내에 전체적인 스턴 상태 변수 수정, Transform 위치 이동 및 금은보화 소환
+    public IEnumerator hitAndGold()
+    {
+        transform.position += new Vector3(0f, 1.3f, 0f);
+        SetMoney(0, 1);
+        yield return new WaitForSeconds(3f);
+        while (currentPatternCoroutine != null)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(1f);
+        SetCollider(1);
+        SetMoney(0, 0);
+        transform.position -= new Vector3(0f, 1.3f, 0f);
+    }
 
     //데미지 입는 함수(= takeDamage) 일단 예비용 가져옴
     public void TakeDamage(int damage)
@@ -135,5 +161,46 @@ public class NewNolbu : MonoBehaviour
             Destroy(prefab);
         }
         activePrefabs.Clear();
+    }
+
+    private void OnDrawGizmos() // 원 공격 범위 표시
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+    void DirectionEnemy(float target, float baseobj) // render 좌우 적을 향하도록 조절
+    {
+        if (target < baseobj)
+            render.flipX = true;
+        else
+            render.flipX = false;
+    }
+
+    public void FindAnd() // Noise 전용 범위 만들기 및 데미지 입히기
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+
+        foreach (Collider2D col in colliders)
+        {
+            if (col.tag == "Player")
+                UnityEngine.Debug.Log(col.tag);
+        }
+    }
+
+    void SetCollider(int set)
+    {
+        if (set == 0)
+            coll.enabled = false;
+        else
+            coll.enabled = true;
+    }
+
+    public void SetMoney(int index, int set)
+    {
+        if (set == 0)
+            money[index].SetActive(false);
+        else
+            money[index].SetActive(true);
     }
 }
