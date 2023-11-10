@@ -26,10 +26,14 @@ public class bomb : MonoBehaviour
 
     void ThrowBomb()
     {
-        // 플레이어와 폭탄 간의 방향 벡터 계산
-        Vector2 direction = (playerTransform.position - transform.position).normalized;
+        // 플레이어의 위치에 따른 방향 설정(각도는 45도 설정)
+        Vector2 direction;
+        if(playerTransform.x - transform.x < 0)
+            direction = new Vector2(-1, 1).normalized;
+        else
+            direction = new Vector2(1, 1).normalized;
 
-        // 초기 속도 계산 (폭탄을 위로 던지려면 Y 방향 속도가 양수여야 합니다)
+        // 속도 계산
         Vector2 velocity = direction * throwForce;
         velocity.y = Mathf.Abs(velocity.y); // Y 방향 속도를 양수로 보정
 

@@ -353,6 +353,7 @@
 "Assets/Gruz Mother Final/Script/GruzMother_Idel.cs"
 "Assets/Gruz Mother Final/Script/PlayerMove.cs"
 "Assets/Nolbu_arrow.cs"
+"Assets/Nolbu_bomb.cs"
 "Assets/Nolbu_hit.cs"
 "Assets/Nolbu_idle.cs"
 "Assets/Script/Arrow.cs"

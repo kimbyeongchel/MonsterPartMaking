@@ -6,7 +6,7 @@ public class Coin : MonoBehaviour
 {
     private Transform playerTransform;
     private Rigidbody2D coinRigid;
-    private  float coinSpeed = 5f;
+    private  float coinSpeed = 8f;
 
     void Start()
     {

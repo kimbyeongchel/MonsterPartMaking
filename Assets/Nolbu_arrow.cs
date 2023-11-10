@@ -9,13 +9,13 @@ public class Nolbu_arrow : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         nolbu = GameObject.FindGameObjectWithTag("NewNolbu").GetComponent<NewNolbu>();
-        nolbu.hitCount++;
+        nolbu.arrowCount++;
         nolbu.currentPatternCoroutine = nolbu.StartCoroutine(nolbu.RangeAll());
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (nolbu.hitCount == 3)
+        if (nolbu.arrowCount == 3)
         {
             nolbu.bossAni.SetBool("arrowRe", false);
             nolbu.currentPatternCoroutine = null;
@@ -24,9 +24,9 @@ public class Nolbu_arrow : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (nolbu.hitCount == 3)
+        if (nolbu.arrowCount == 3)
         {
-            nolbu.hitCount = 0;
+            nolbu.arrowCount = 0;
         }
     }
 }
