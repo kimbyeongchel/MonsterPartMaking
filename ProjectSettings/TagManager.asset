@@ -15,7 +15,6 @@ TagManager:
   - box
   - ground
   - GruzMother
-  - NewNolbu
   layers:
   - Default
   - TransparentFX

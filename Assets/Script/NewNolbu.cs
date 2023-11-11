@@ -60,8 +60,6 @@ public class NewNolbu : MonoBehaviour
         if (dead) return;
 
         DirectionEnemy(playerTransform.position.x, transform.position.x);
-        // 보스 상태를 판별하여 스턴 중, 사망 처리, 공격 중 등 상태 표현 및 체크
-        //해당 Update에서 count를 모니터링하여 hit 동작 실행(= anystate를 통한 hit trigger 실행 ) hp로 해도 될듯?
     }
 
     //idle 상태에서의 작동방식 조절
