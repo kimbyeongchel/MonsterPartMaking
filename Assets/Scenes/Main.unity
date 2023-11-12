@@ -344,7 +344,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 341027513}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2593,13 +2593,13 @@ GameObject:
   - component: {fileID: 1700476726}
   - component: {fileID: 1700476725}
   - component: {fileID: 1700476730}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "\uB4E4\uC950"
-  m_TagString: Untagged
+  m_TagString: Pozol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &1700476725
 Animator:
   serializedVersion: 5
@@ -2728,7 +2728,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1700476724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.38, y: -2.399895, z: 0}
+  m_LocalPosition: {x: -6.33, y: -2.399895, z: 0}
   m_LocalScale: {x: 5.3575, y: 5.3575, z: 5.3575}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2751,6 +2751,7 @@ MonoBehaviour:
   warningBottom: {fileID: 5367276673595262881, guid: 12f7cc25e5c81ce42bc7dc7b2f296092, type: 3}
   projectilePrefab: {fileID: 8536094615397274168, guid: 4fec1949577bd464d85d6f50774c9a5f, type: 3}
   pos: {fileID: 341027513}
+  newPhysicsMaterial: {fileID: 6200000, guid: e2b79f20430689c468a798a45dd85e73, type: 2}
 --- !u!1 &1710679711
 GameObject:
   m_ObjectHideFlags: 0
@@ -3317,7 +3318,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2123167186958418050, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2123167186958418109, guid: ff25cdf28985e3548b58cc56a673d4bf, type: 3}
       propertyPath: m_RootOrder

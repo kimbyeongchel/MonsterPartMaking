@@ -30,7 +30,7 @@ public class bomb : MonoBehaviour
 
     void Launch()
     {
-        float initialSpeed = Calculate_speed(distance, Physics2D.gravity.y, gravityScale);
+        float initialSpeed = Calculate_speed(distance, Physics2D.gravity.y);
         float angle = isRight ? 45f : 135f;
 
         float radianAngle = angle * Mathf.Deg2Rad;
@@ -42,7 +42,7 @@ public class bomb : MonoBehaviour
         rb.gravityScale = gravityScale;
     }
 
-    float Calculate_speed(float distance, float gravity, float scale)
+    float Calculate_speed(float distance, float gravity)
     {
         return Mathf.Sqrt(distance * Mathf.Abs(gravity) / Mathf.Sin(2f * 45f * Mathf.Deg2Rad));
     }

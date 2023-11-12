@@ -8,7 +8,7 @@ public class Nolbu_arrow : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        nolbu = GameObject.FindGameObjectWithTag("NewNolbu").GetComponent<NewNolbu>();
+        nolbu = GameObject.FindGameObjectWithTag("Nolbu").GetComponent<NewNolbu>();
         nolbu.arrowCount++;
         nolbu.currentPatternCoroutine = nolbu.StartCoroutine(nolbu.RangeAll());
     }

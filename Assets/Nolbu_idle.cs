@@ -9,7 +9,7 @@ public class Nolbu_idle : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        nolbu = GameObject.FindGameObjectWithTag("NewNolbu").GetComponent<NewNolbu>();
+        nolbu = GameObject.FindGameObjectWithTag("Nolbu").GetComponent<NewNolbu>();
         currentTime = 0f;
     }
 
