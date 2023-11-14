@@ -10,10 +10,10 @@ public class Bossmouse : MonoBehaviour
     private SpriteRenderer render;
     private BoxCollider2D coll;
 
-    public GameObject choiceObject;
     public GameObject warningBottom;
     public GameObject circleWarning;
     public GameObject[] throwPrefab;
+    private GameObject choiceObject;
     private GameObject prefab_instance;
     public List<GameObject> activePrefabs; // 화면 상의 프리팹들
 
