@@ -352,6 +352,7 @@
 "Assets/Gruz Mother Final/Script/GruzMother_AttackUpNDown.cs"
 "Assets/Gruz Mother Final/Script/GruzMother_Idel.cs"
 "Assets/Gruz Mother Final/Script/PlayerMove.cs"
+"Assets/mouse_noise.cs"
 "Assets/Nolbu_arrow.cs"
 "Assets/Nolbu_bomb.cs"
 "Assets/Nolbu_hit.cs"
