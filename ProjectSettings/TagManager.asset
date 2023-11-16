@@ -15,6 +15,7 @@ TagManager:
   - box
   - ground
   - GruzMother
+  - Bossrat
   layers:
   - Default
   - TransparentFX
