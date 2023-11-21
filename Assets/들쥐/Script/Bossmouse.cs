@@ -36,11 +36,8 @@ public class Bossmouse : MonoBehaviour
     float radius = 1f;
 
     //move 함수를 위한 변수
-    public float distance_move = 0f;
-    public float rayDistance = 3f;
-    public float moveSpeed = 2.5f;
-    private bool move_attack = false;
-    public bool right = true;
+    public float nextMove = 1f;
+    public bool move_attack = false;
 
     //초기 설정
     void Start()
@@ -53,7 +50,6 @@ public class Bossmouse : MonoBehaviour
         pattern_damage[3] = 20f; // noise는 범위 안에 있으면 지속적으로 데미지 입기
         pattern_damage[4] = 30f; // x축, y축, 부딪히는 데미지 => 모두 몸박 데미지 이기 때문에 30으로 통일
 
-        throwPrefab = new GameObject[4];
         bossAni = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         rand = new System.Random();
@@ -91,7 +87,7 @@ public class Bossmouse : MonoBehaviour
                 double value = rand.NextDouble();
                 if (value > 0 && value <= 0.4)
                 {
-                    //bossAni.SetTrigger("throw");
+                    ShootObject();
                     Debug.Log("one");
                 }
                 else if (0.7 >= value && value > 0.4)
@@ -113,59 +109,56 @@ public class Bossmouse : MonoBehaviour
     // 도령 상태의 한자 날리기와 목탁 던지기 두 패턴 작성
     // 만약 2phase 상태가 되면 프리팹을 교체하여 발톱 및 손톱 던지기 사용( 매개변수로 지정하거나 if문을 통한 구분 요망 )
     // 현재 상태에서 던지기 프리팹을 배열 4개로 구성하였기 때문에 phase_state 변수에 따른 if나 switch 문 구현 요망
+    public IEnumerator throw_gal() // 한자 날리기
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(1f);
+            prefab_instance = Instantiate(throwPrefab[0], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+            if (i != 4)
+            {
+                yield return new WaitForSeconds(0.6f);
+            }
+        }
+        bossAni.SetTrigger("endThrow");
+    }
+
+    public IEnumerator throw_mok() // 목탁 던지기
+    {
+        yield return new WaitForSeconds(0.2f);
+        prefab_instance = Instantiate(throwPrefab[1], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+    }
 
     //move 함수 추가
     //주위 거리에서 rayCast 막힌 상태를 인식해서 무작위로 좌우 설정하는 변수 특정 거리마다 이동하도록 특정함..
     public void Check_distance()
     {
-        distance_move = 0f;
-        RaycastHit2D leftHit = Physics2D.Raycast(transform.position, Vector2.left, rayDistance);
-        RaycastHit2D rightHit = Physics2D.Raycast(transform.position, Vector2.right, rayDistance);
+        RaycastHit2D frayHit = Physics2D.Raycast(transform.position + new Vector3(1f, 0.1f, 0f), Vector2.right, 2f); // right
+        RaycastHit2D brayHit = Physics2D.Raycast(transform.position + new Vector3(-1f, 0.1f, 0f), Vector2.left, 2f); // left
 
-        if (leftHit.collider != null && leftHit.collider.CompareTag("ground"))
+        if (frayHit.collider != null)
         {
-            right = true;
+            nextMove = -2f;
         }
-        else if (rightHit.collider != null && rightHit.collider.CompareTag("ground"))
-        {
-            right = false;
-        }
-        else if(leftHit.collider == null && rightHit.collider == null)
+        else if (frayHit.collider == null && brayHit.collider == null)
         {
             double value = rand.NextDouble();
-            if(value > 0.5)
+            if (value > 0.5)
             {
-                right = true;
+                nextMove = 2f;
             }
             else
             {
-                right = false;
+                nextMove = -2f;
             }
         }
-    }
-
-    //해당 거리만큼 움직였는가를 인식하고 정지
-    public void move_setDistance()
-    {
-        if (right == true)
+        else if(frayHit.collider != null && brayHit.collider != null)
         {
-            rb.AddForce(Vector2.right * moveSpeed * Time.deltaTime);
-        }
-        else
-        {
-            rb.AddForce(Vector2.left * moveSpeed * Time.deltaTime);
-        }
-
-        distance_move += Mathf.Abs(rb.velocity.x) * Time.deltaTime;
-        if (distance_move >= rayDistance)
-        {
-            rb.velocity = Vector2.zero;
-            distance_move = 0f;
             bossAni.SetBool("run", false);
         }
     }
 
-    public IEnumerator ShootObject() // 투사체 발사
+    public void ShootObject() // 투사체 발사
     {
         double value = rand.NextDouble();
 
@@ -173,40 +166,40 @@ public class Bossmouse : MonoBehaviour
         {
             case 0:
                 if (value > 0.5)
-                    choiceObject = throwPrefab[0];
-                else 
-                    choiceObject = throwPrefab[1];
-                break;
-            case 1:
-                if (value > 0.5)
-                    choiceObject = throwPrefab[2];
+                    bossAni.SetTrigger("moktak");
                 else
-                    choiceObject = throwPrefab[3];
+                    bossAni.SetTrigger("gal");
                 break;
-            case 2:
-                if (value > 0.5)
-                    choiceObject = throwPrefab[2];
-                else
-                    choiceObject = throwPrefab[3];
+            //case 1:
+            //    if (value > 0.5)
+            //        choiceObject = throwPrefab[2];
+            //    else
+            //        choiceObject = throwPrefab[3];
+            //    break;
+            //case 2:
+            //    if (value > 0.5)
+            //        choiceObject = throwPrefab[2];
+            //    else
+            //        choiceObject = throwPrefab[3];
 
-                choiceObject.transform.localScale = new Vector3(2f, 2f, 0f);
-                // collider2D 크기 증가도 필요함. -> 실질적인 데미지 범위 증가를 위해서
-                coll.size = new Vector3(2f, 2f, 0);
-                // 데미지 증가도 필요할듯
-                pattern_damage[2] = 24f;
-                break;
+            //    choiceObject.transform.localScale = new Vector3(2f, 2f, 0f);
+            //    // collider2D 크기 증가도 필요함. -> 실질적인 데미지 범위 증가를 위해서
+            //    coll.size = new Vector3(2f, 2f, 0);
+            //    // 데미지 증가도 필요할듯
+            //    pattern_damage[2] = 24f;
+            //    break;
         }
 
-        for (int i = 0; i < 5; i++)
-        {
-            yield return new WaitForSeconds(0.2f);
-            prefab_instance = Instantiate(choiceObject, transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
-            if (i != 4)
-            {
-                yield return new WaitForSeconds(0.6f);
-            }
-        }
-        bossAni.SetTrigger("endShoot");
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    yield return new WaitForSeconds(0.2f);
+        //    prefab_instance = Instantiate(choiceObject, transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+        //    if (i != 4)
+        //    {
+        //        yield return new WaitForSeconds(0.6f);
+        //    }
+        //}
+        //bossAni.SetTrigger("endShoot");
     }
 
     //x축 전범위 구르기

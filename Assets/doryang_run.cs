@@ -5,31 +5,28 @@ using UnityEngine;
 public class doryang_run : StateMachineBehaviour
 {
     Bossmouse mouse;
+    public float time = 0f;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         mouse = GameObject.FindGameObjectWithTag("Bossrat").GetComponent<Bossmouse>();
+        time = 0f;
+        mouse.nextMove = 2f;
         mouse.Check_distance();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (mouse.right == true)
-        {
-            mouse.rb.AddForce(Vector2.right * mouse.moveSpeed);
-        }
-        else
-        {
-            mouse.rb.AddForce(Vector2.left * mouse.moveSpeed);
-        }
 
-        mouse.distance_move += Mathf.Abs(mouse.rb.velocity.x) * Time.deltaTime;
-        if (mouse.distance_move >= mouse.rayDistance)
+        mouse.rb.velocity = new Vector2(mouse.nextMove, mouse.rb.velocity.y);
+
+        time += Time.deltaTime;
+        if (time >= 1.5f)
         {
             mouse.rb.velocity = Vector2.zero;
-            mouse.rb.AddForce(Vector2.zero);
-            mouse.distance_move = 0f;
+            mouse.move_attack = false;
             mouse.bossAni.SetBool("run", false);
         }
     }
