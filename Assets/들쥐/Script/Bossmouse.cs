@@ -84,23 +84,7 @@ public class Bossmouse : MonoBehaviour
             }
             else
             {
-                double value = rand.NextDouble();
-                if (value > 0 && value <= 0.4)
-                {
-                    ShootObject();
-                    Debug.Log("one");
-                }
-                else if (0.7 >= value && value > 0.4)
-                {
-                    //bossAni.SetTrigger("noiseWarning");
-                    Debug.Log("two");
-                }
-                else
-                {
-                    Debug.Log("three");
-                    //bossAni.SetTrigger("patternThree");
-                }
-
+                ShootObject();
                 move_attack = true;
             }
         }
@@ -125,7 +109,7 @@ public class Bossmouse : MonoBehaviour
 
     public IEnumerator throw_mok() // ¸ñÅ¹ ´øÁö±â
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         prefab_instance = Instantiate(throwPrefab[1], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
     }
 
