@@ -12,7 +12,7 @@ public class doryang_run : StateMachineBehaviour
     {
         mouse = GameObject.FindGameObjectWithTag("Bossrat").GetComponent<Bossmouse>();
         time = 0f;
-        mouse.nextMove = 2f;
+        mouse.nextMove = 3f;
         mouse.Check_distance();
     }
 
@@ -23,7 +23,7 @@ public class doryang_run : StateMachineBehaviour
         mouse.rb.velocity = new Vector2(mouse.nextMove, mouse.rb.velocity.y);
 
         time += Time.deltaTime;
-        if (time >= 1.5f)
+        if (time >= 1f)
         {
             mouse.rb.velocity = Vector2.zero;
             mouse.move_attack = false;
@@ -32,10 +32,11 @@ public class doryang_run : StateMachineBehaviour
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        mouse.rb.velocity = Vector2.zero;
+        mouse.move_attack = false;
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

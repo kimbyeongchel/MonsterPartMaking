@@ -79,6 +79,14 @@ public class TargetControl : MonoBehaviour
                             nolbu.TakeDamage(1);
                         }
                     }
+                    else if (collider.tag == "Bossrat")
+                    {
+                        Bossmouse mouse = collider.GetComponent<Bossmouse>();
+                        if (mouse != null)
+                        {
+                            mouse.TakeDamage(20);
+                        }
+                    }
                 }
                 animator.SetTrigger("Attack");
                 curTime = coolTime;

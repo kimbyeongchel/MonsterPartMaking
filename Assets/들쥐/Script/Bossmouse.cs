@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //고려사항
 // 들쥐의 경우, phase 2, 3 같은 경우는 같이 애니메이션을 공유하기 때문에 그에 따른 색깔을 고정하도록 해야됨. -> changeColor() 를 통한 해결
@@ -13,8 +14,11 @@ public class Bossmouse : MonoBehaviour
     public Animator bossAni;
     public Rigidbody2D rb;
     public bool dead { get; protected set; }
-    private SpriteRenderer render;
+    public SpriteRenderer render;
     private BoxCollider2D coll;
+    public CircleCollider2D ccoll;
+    public CapsuleCollider2D pcoll;
+    public Vector3 initialPosition = new Vector3(7.23999977f, -3.10665798f, 0f);
 
     public GameObject warningBottom;
     public GameObject circleWarning;
@@ -23,7 +27,7 @@ public class Bossmouse : MonoBehaviour
     private GameObject prefab_instance;
     public List<GameObject> activePrefabs; // 화면 상의 프리팹들
 
-    private float[] pattern_damage;
+    public float[] pattern_damage;
     public Transform warningBottom_pos; // x축 돌진 경고창 위치
     private Transform playerTransform;
     public System.Random rand;
@@ -36,13 +40,29 @@ public class Bossmouse : MonoBehaviour
     float radius = 1f;
 
     //move 함수를 위한 변수
-    public float nextMove = 1f;
+    public float nextMove = 4f;
     public bool move_attack = false;
+    public float distance = 3f;
+
+    //한자 날리기 개수 체크
+    public int check_gal = 0;
+
+    //hp와 damageText에 관한 변수
+    public GameObject damageText;
+    public Transform textPos;
+    public Slider Health;
+    public float HP = 100f;
+
+    //구르는 중 표시 변수
+    private bool rolling = false;
 
     //초기 설정
     void Start()
     {
+        rolling = false;
+        Health.value = HP;
         phase_state = 0f;
+        check_gal = 0;
         pattern_damage = new float[5];
         pattern_damage[0] = 10f; // 한자
         pattern_damage[1] = 12f; // 목탁
@@ -56,6 +76,8 @@ public class Bossmouse : MonoBehaviour
         render = GetComponent<SpriteRenderer>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         coll = this.GetComponent<BoxCollider2D>();
+        ccoll = this.GetComponent<CircleCollider2D>();
+        pcoll = this.GetComponent<CapsuleCollider2D>();
     }
 
     //update로 좌우판단 및 사망 상태 확인
@@ -63,7 +85,8 @@ public class Bossmouse : MonoBehaviour
     {
         if (dead) return;
 
-        DirectionEnemy(playerTransform.position.x, transform.position.x);
+        if(!rolling)
+            DirectionEnemy(playerTransform.position.x, transform.position.x);
     }
 
     // 들쥐 내의 2->3 phase 변경을 위한 색 변경( 애니메이션 자체의 색깔까지 변경하는 걸 확인함)
@@ -76,6 +99,7 @@ public class Bossmouse : MonoBehaviour
     public void IdleState()
     {
         //phase 변수에 따른 패턴 세분화 작성요망
+
         if (phase_state == 0f)
         {
             if (move_attack)
@@ -84,7 +108,63 @@ public class Bossmouse : MonoBehaviour
             }
             else
             {
-                ShootObject();
+                ShootObject(); // 패턴에 따라 수정 필요
+                move_attack = true;
+            }
+        }
+        else if (phase_state == 1f)
+        {
+            if (move_attack)
+            {
+                bossAni.SetBool("run", true);
+            }
+            else
+            {
+                double value = rand.NextDouble();
+                if (value > 0 && value <= 0.7)
+                {
+                    ShootObject();
+                }
+                else
+                {
+                    pcoll.enabled = false;
+                    ccoll.enabled = true;
+                    bossAni.SetTrigger("goInitial");
+                }
+                move_attack = true;
+            }
+        }
+        else if (phase_state == 2f)
+        {
+            if (move_attack)
+            {
+                bossAni.SetBool("run", true);
+            }
+            else
+            {
+                double value = rand.NextDouble();
+                if (value > 0 && value <= 0.4)
+                {
+                    //오브젝트 발사
+                    ShootObject();
+                }
+                else if(value > 0.4 && value <= 0.8)
+                {
+                    //x축 구르기
+                    pcoll.enabled = false;
+                    ccoll.enabled = true;
+                    bossAni.SetTrigger("goInitial");
+                }
+                else if(value >0.8 && value <= 0.9)
+                {
+                    //noise
+                    bossAni.SetTrigger("noisePattern");
+                }
+                else
+                {
+                    //updown
+                    bossAni.SetTrigger("ready");
+                }
                 move_attack = true;
             }
         }
@@ -93,47 +173,76 @@ public class Bossmouse : MonoBehaviour
     // 도령 상태의 한자 날리기와 목탁 던지기 두 패턴 작성
     // 만약 2phase 상태가 되면 프리팹을 교체하여 발톱 및 손톱 던지기 사용( 매개변수로 지정하거나 if문을 통한 구분 요망 )
     // 현재 상태에서 던지기 프리팹을 배열 4개로 구성하였기 때문에 phase_state 변수에 따른 if나 switch 문 구현 요망
-    public IEnumerator throw_gal() // 한자 날리기
+    public void throw_gal() // 한자 날리기 -> 애니메이션 반복에 이상이 생겨 직접 애니메이션 함수로 추가하여 중지하도록 함.
     {
-        for (int i = 0; i < 3; i++)
-        {
-            yield return new WaitForSeconds(1f);
-            prefab_instance = Instantiate(throwPrefab[0], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
-            if (i != 4)
-            {
-                yield return new WaitForSeconds(0.6f);
-            }
-        }
-        bossAni.SetTrigger("endThrow");
+        prefab_instance = Instantiate(throwPrefab[0], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+        check_gal++;
+        if (check_gal == 3)
+            bossAni.SetTrigger("endThrow");
     }
 
-    public IEnumerator throw_mok() // 목탁 던지기
+    public IEnumerator throw_mok() // 목탁 던지기 
     {
         yield return new WaitForSeconds(0.5f);
         prefab_instance = Instantiate(throwPrefab[1], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+    }
+
+    public IEnumerator throw_nail()
+    {
+        if (phase_state == 1)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                yield return new WaitForSeconds(0.4f);
+                prefab_instance = Instantiate(throwPrefab[2], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+                if (i != 3)
+                    yield return new WaitForSeconds(0.3f);
+            }
+            bossAni.SetTrigger("endThrow");
+        }
+        else if(phase_state == 2)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                yield return new WaitForSeconds(0.4f);
+                prefab_instance = Instantiate(throwPrefab[2], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+                if (i != 3)
+                    yield return new WaitForSeconds(0.3f);
+            }
+            bossAni.SetTrigger("endThrow");
+        }
     }
 
     //move 함수 추가
     //주위 거리에서 rayCast 막힌 상태를 인식해서 무작위로 좌우 설정하는 변수 특정 거리마다 이동하도록 특정함..
     public void Check_distance()
     {
-        RaycastHit2D frayHit = Physics2D.Raycast(transform.position + new Vector3(1f, 0.1f, 0f), Vector2.right, 2f); // right
-        RaycastHit2D brayHit = Physics2D.Raycast(transform.position + new Vector3(-1f, 0.1f, 0f), Vector2.left, 2f); // left
+        if (phase_state == 0)
+            distance = 3f;
+        else if (phase_state == 1)
+            distance = 4f;
+        else
+        {
+            distance = 5f;
+        }
+
+        RaycastHit2D frayHit = Physics2D.Raycast(transform.position + new Vector3(1f, 0.1f, 0f), Vector2.right, distance); // right
+        RaycastHit2D brayHit = Physics2D.Raycast(transform.position + new Vector3(-1f, 0.1f, 0f), Vector2.left, distance); // left
 
         if (frayHit.collider != null)
         {
-            nextMove = -2f;
+            nextMove = -1f * distance;
         }
         else if (frayHit.collider == null && brayHit.collider == null)
         {
             double value = rand.NextDouble();
             if (value > 0.5)
             {
-                nextMove = 2f;
+                nextMove = distance;
             }
             else
             {
-                nextMove = -2f;
+                nextMove = -1f *distance;
             }
         }
         else if(frayHit.collider != null && brayHit.collider != null)
@@ -154,60 +263,39 @@ public class Bossmouse : MonoBehaviour
                 else
                     bossAni.SetTrigger("gal");
                 break;
-            //case 1:
-            //    if (value > 0.5)
-            //        choiceObject = throwPrefab[2];
-            //    else
-            //        choiceObject = throwPrefab[3];
-            //    break;
-            //case 2:
-            //    if (value > 0.5)
-            //        choiceObject = throwPrefab[2];
-            //    else
-            //        choiceObject = throwPrefab[3];
-
-            //    choiceObject.transform.localScale = new Vector3(2f, 2f, 0f);
-            //    // collider2D 크기 증가도 필요함. -> 실질적인 데미지 범위 증가를 위해서
-            //    coll.size = new Vector3(2f, 2f, 0);
-            //    // 데미지 증가도 필요할듯
-            //    pattern_damage[2] = 24f;
-            //    break;
+            case 1:
+            case 2:
+                bossAni.SetTrigger("throw_nail");
+                break;
         }
-
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    yield return new WaitForSeconds(0.2f);
-        //    prefab_instance = Instantiate(choiceObject, transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
-        //    if (i != 4)
-        //    {
-        //        yield return new WaitForSeconds(0.6f);
-        //    }
-        //}
-        //bossAni.SetTrigger("endShoot");
     }
 
-    //x축 전범위 구르기
-    IEnumerator bottomAll() // x축 전범위 공격
+    public IEnumerator bottomWarning()
     {
         prefab_instance = Instantiate(warningBottom, warningBottom_pos.position, Quaternion.identity);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(prefab_instance);
-        bossAni.SetBool("slider", true);
+    }
+   
+    //x축 전범위 구르기
+    public IEnumerator bottomAll() // x축 전범위 공격
+    {
         float moveDuration = 1.5f;
         float moveSpeed = 20f;
         float exitTime = 0f;
-        Vector3 initialPosition = transform.position;
-        Vector3 targetPosition = initialPosition + new Vector3(-moveDuration * moveSpeed, 0f, 0f);
+        if (phase_state == 2)
+            moveSpeed = 30f;
 
         while (exitTime < moveDuration)
-        { 
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, exitTime / moveDuration);
+        {
+            rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
             exitTime += Time.deltaTime;
+            yield return null;
         }
-
-        transform.position = targetPosition;
-        bossAni.SetBool("slider", false);
+        rb.velocity = Vector2.zero;
         transform.position = initialPosition;
+        
+        bossAni.SetTrigger("bottom_all");
     }
 
     //소음 공격
@@ -221,14 +309,14 @@ public class Bossmouse : MonoBehaviour
         bossAni.SetTrigger("noise");
     }
 
-    void ChangeMaterial(PhysicsMaterial2D material)
+    public void ChangeMaterial(PhysicsMaterial2D material)
     {
         // Rigidbody2D의 sharedMaterial 속성을 사용하여 물리 재질 변경
         rb.sharedMaterial = material;
     }
 
     //y축 내려찍기 ( 위에 천장이 없는 상태이므로 맵을 포물선으로 바운스 함수
-    IEnumerator pattern_updown()
+    public IEnumerator pattern_updown()
     {
         bool isRight = playerTransform.position.x > transform.position.x;
         float gravityScale = 1f;
@@ -307,26 +395,67 @@ public class Bossmouse : MonoBehaviour
             coll.enabled = true;
     }
 
-    //상태 변수를 활용한 phase 전환 함수
-    public void Change_phase()
-    {
-        if(phase_state == 1 && phase_state == 2)
-        {
-            bossAni.SetTrigger("Phase_update");
-        }
-    }
-
     //사망 시 동작하는 함수
     void Die()
     {
-        dead = true;
         pattern_check_stop();
-        bossAni.SetTrigger("die");
+        if (phase_state == 0)
+        {
+            coll.enabled = false;
+            bossAni.SetTrigger("phase0_die");
+            HP = 100f;
+            Health.value = HP;
+            pcoll.enabled = true;
+        }
+        else if (phase_state == 1)
+        {
+            bossAni.SetTrigger("phase1_die");
+            HP = 100f;
+            Health.value = HP;
+            ChangeColor(); ;
+        }
+        else
+        {
+            dead = true;
+            bossAni.SetTrigger("die");
+        }
+        phase_state++;
     }
 
-    void bossDelete()
+    public void bossDelete()
     {
         Destroy(gameObject);
+    }
+
+    //데미지 입는 함수(= takeDamage) 일단 예비용 가져옴
+    public void TakeDamage(int damage)
+    {
+        if (dead) return;
+        textOut(damage);
+
+        if (Health.value <= 0)
+        {
+            Die();
+        }
+    }
+
+    // hp 텍스트 및 최신화 과정 함수 작성
+    void textOut(int damage)
+    {
+        GameObject hitText = Instantiate(damageText);
+        hitText.transform.position = textPos.position;
+        hitText.GetComponent<DamageText>().damage = damage;
+        HP -= damage;
+        Health.value = HP;
+    }
+
+    //일단 충돌 안되는데 나중에 생각하기
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Player") && (phase_state == 1 || phase_state == 2))
+        {
+            Debug.Log("충돌");
+        }
     }
 
     //    1 Phase
