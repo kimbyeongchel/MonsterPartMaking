@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 307050046}
   - component: {fileID: 307050048}
   - component: {fileID: 307050047}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -2.5, y: 0}
   m_SizeDelta: {x: 5.0001, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 348796083}
   - component: {fileID: 348796082}
   - component: {fileID: 348796081}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1554707088}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 1685631808}
   - component: {fileID: 1685631810}
   - component: {fileID: 1685631809}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1875712950}
   - component: {fileID: 1875712951}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,7 +389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2076759709}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -499,7 +499,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 1866646111, guid: 7870efade9ab2bc45977f4b6758d103f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.56, y: 0.56}
@@ -549,7 +549,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!61 &2123167186958418111
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -588,16 +588,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0bec6044683b348ba4ad31fdaabedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  pos: {fileID: 2123167187661501144}
+  rb: {fileID: 0}
+  ani: {fileID: 0}
+  bColl: {fileID: 0}
   boxsize: {x: 0.8, y: 1.2}
-  idleTime: 1
-  hudDamageText: {fileID: 2413220396480905056, guid: e96de0bca3852c64195595c469014522, type: 3}
-  hudPos: {fileID: 6593901562749738774}
+  attackOffset: {x: -1, y: -0.2, z: 0}
+  isFlipped: 0
+  monsterSpeed: 3
+  damageText: {fileID: 2413220396480905056, guid: e96de0bca3852c64195595c469014522, type: 3}
+  textPos: {fileID: 6593901562749738774}
   Health: {fileID: 1875712951}
-  HPPos: {fileID: 0}
   HP: 100
-  SetTime: 1.8
+  isAttacking: 0
+  idleTime: 1
 --- !u!1 &2123167187661501151
 GameObject:
   m_ObjectHideFlags: 0

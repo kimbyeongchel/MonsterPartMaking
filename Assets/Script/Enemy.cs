@@ -1,80 +1,134 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public Transform target;
-    private SpriteRenderer render;
+    protected Transform target;
+    public SpriteRenderer render;
+    public Rigidbody2D rb;
     public System.Random rand;
+    public Animator ani;
+    public bool dead { get; protected set; }
+    public BoxCollider2D bColl;
 
-    public BoxCollider2D box;
-    public float atkCooltime = 1f;
-    public float atkDelay;
-    public float moveSpeed = 3f;
-    public Transform pos;
     public Vector2 boxsize;
-    private Animator ani;
+    public Vector3 attackOffset;
+    public bool isFlipped = false;
 
-    // Start is called before the first frame update
-    void Start()
+    public float monsterSpeed;
+    protected float yDis = 0f;
+
+    //hp와 damageText에 관한 변수
+    public GameObject damageText;
+    public Transform textPos;
+    public Slider Health;
+    public float HP = 100f;
+
+    //초기 상태 설정
+    protected virtual void OnEnable()
     {
-        atkDelay = 0f;
-        rand = new System.Random(); 
-        box = GetComponent<BoxCollider2D>();
+        isFlipped = true;
+        HP = 100f;
+        dead = false;
+        rand = new System.Random();
         render = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         ani = GetComponent<Animator>();
+        bColl = GetComponent<BoxCollider2D>();
+        Health.value = HP;
+        monsterSpeed = 2f;
+        render.flipX = true;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    //공격 범위 표시
+    protected virtual void OnDrawGizmos()
     {
-        if (atkDelay >= 0)
-            atkDelay -= Time.deltaTime;
+        Vector3 posO = transform.position;
+        posO += transform.right * attackOffset.x;
+        posO += transform.up * attackOffset.y;
 
-
+        Gizmos.DrawWireCube(posO, boxsize);
     }
 
-    private void OnDrawGizmos() // 컴파일 할 때 자동 실행됨.
+    // 데미지 주는 함수
+    public virtual void FindAnd()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(pos.position, boxsize);
-    }
+        Vector3 posO = transform.position;
+        posO += transform.right * attackOffset.x;
+        posO += transform.up * attackOffset.y;
 
-    public void FindAnd()
-    {
-        if (render.flipX == false)
-        {
-            pos.localPosition = new Vector3(0.4421317f, 0f, 0f);
-        }
-        else
-        {
-            pos.localPosition = new Vector3(-0.4421317f, 0f, 0f);
-        }
-
-        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxsize, 0);
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(posO, boxsize, 0);
         foreach (Collider2D collider in collider2Ds)
         {
             if (collider.tag == "Player")
                 UnityEngine.Debug.Log(collider.tag);
         }
-
     }
 
-    public void DirectionEnemy(float target, float baseobj)
+    //몬스터 애니메이션 방향 전환
+    public virtual void DirectionEnemy()
     {
-        if (target > baseobj)
+        if (target.position.x > transform.position.x && isFlipped)
         {
-            render.flipX = false;
+            transform.Rotate(0f, 180f, 0f);
+            isFlipped = false;
         }
-        else
-        { 
-            render.flipX = true;
+        else if (target.position.x < transform.position.x && !isFlipped)
+        {
+            transform.Rotate(0f, 180f, 0f);
+            isFlipped = true;
         }
-
     }
 
+    //데미지 입는 함수(= takeDamage) 일단 예비용 가져옴
+    public virtual void TakeDamage(int damage)
+    {
+        if (dead) return;
+        textOut(damage);
 
+        if (Health.value <= 0)
+        {
+            Die();
+        }
+    }
+
+    // hp 텍스트 및 최신화 과정 함수 작성
+    protected void textOut(int damage)
+    {
+        HP -= damage;
+        Health.value = HP;
+        GameObject hitText = Instantiate(damageText);
+        hitText.transform.position = textPos.position;
+        hitText.GetComponent<DamageText>().damage = damage;
+    }
+
+    protected virtual void Die()
+    {
+        dead = true;
+        ani.SetTrigger("die");
+    }
+
+    //몬스터 제거
+    public void monsterDestroy()
+    {
+        Destroy(gameObject);
+    }
+
+    //얼음 효과
+    protected IEnumerator ice_effects()
+    {
+        Color originalColor = render.color;
+
+        render.color = new Color(0.23f, 0.23f, 1f);
+        monsterSpeed /= 2;
+
+        yield return new WaitForSeconds(3f);
+
+        render.color = originalColor;
+        monsterSpeed *= 2;
+    }
 }
