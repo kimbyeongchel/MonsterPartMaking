@@ -5,7 +5,7 @@ using UnityEngine;
 public class doryang_run : StateMachineBehaviour
 {
     Bossmouse mouse;
-    public float time = 0f;
+    float time = 0f;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,7 +17,6 @@ public class doryang_run : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
         mouse.rb.velocity = new Vector2(mouse.monsterSpeed, mouse.rb.velocity.y);
 
         time += Time.deltaTime;
@@ -27,7 +26,6 @@ public class doryang_run : StateMachineBehaviour
         }
     }
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         mouse.rb.velocity = Vector2.zero;

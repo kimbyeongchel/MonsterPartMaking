@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    protected Transform target;
+    public Transform target;
     public SpriteRenderer render;
     public Rigidbody2D rb;
     public System.Random rand;
@@ -20,13 +20,15 @@ public class Enemy : MonoBehaviour
     public float monsterSpeed;
     protected float yDis = 0f;
 
-    //hp¿Í damageText¿¡ °üÇÑ º¯¼ö
+    //hpì™€ damageTextì— ê´€í•œ ë³€ìˆ˜
     public GameObject damageText;
     public Transform textPos;
     public Slider Health;
     public float HP = 100f;
 
-    //ÃÊ±â »óÅÂ ¼³Á¤
+    public Collider2D targetCollider;
+
+    //ì´ˆê¸° ìƒíƒœ ì„¤ì •
     protected virtual void OnEnable()
     {
         isFlipped = true;
@@ -38,13 +40,19 @@ public class Enemy : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
         ani = GetComponent<Animator>();
         bColl = GetComponent<BoxCollider2D>();
+        targetCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>();
         Health.value = HP;
         monsterSpeed = 2f;
         render.flipX = true;
+        IgnoreCollisions(targetCollider);
     }
 
+    void IgnoreCollisions(Collider2D collider1)
+    {
+        Physics2D.IgnoreCollision(collider1, bColl, true);
+    }
 
-    //°ø°İ ¹üÀ§ Ç¥½Ã
+    //ê³µê²© ë²”ìœ„ í‘œì‹œ
     protected virtual void OnDrawGizmos()
     {
         Vector3 posO = transform.position;
@@ -54,7 +62,7 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireCube(posO, boxsize);
     }
 
-    // µ¥¹ÌÁö ÁÖ´Â ÇÔ¼ö
+    // ë°ë¯¸ì§€ ì£¼ëŠ” í•¨ìˆ˜
     public virtual void FindAnd()
     {
         Vector3 posO = transform.position;
@@ -69,7 +77,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //¸ó½ºÅÍ ¾Ö´Ï¸ŞÀÌ¼Ç ¹æÇâ ÀüÈ¯
+    //ëª¬ìŠ¤í„° ì• ë‹ˆë©”ì´ì…˜ ë°©í–¥ ì „í™˜
     public virtual void DirectionEnemy()
     {
         if (target.position.x > transform.position.x && isFlipped)
@@ -84,7 +92,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //µ¥¹ÌÁö ÀÔ´Â ÇÔ¼ö(= takeDamage) ÀÏ´Ü ¿¹ºñ¿ë °¡Á®¿È
+    //ë°ë¯¸ì§€ ì…ëŠ” í•¨ìˆ˜(= takeDamage)
     public virtual void TakeDamage(int damage)
     {
         if (dead) return;
@@ -96,7 +104,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // hp ÅØ½ºÆ® ¹× ÃÖ½ÅÈ­ °úÁ¤ ÇÔ¼ö ÀÛ¼º
+    // hp í…ìŠ¤íŠ¸ ë° ìµœì‹ í™” ê³¼ì • í•¨ìˆ˜ ì‘ì„±
     protected void textOut(int damage)
     {
         HP -= damage;
@@ -112,13 +120,13 @@ public class Enemy : MonoBehaviour
         ani.SetTrigger("die");
     }
 
-    //¸ó½ºÅÍ Á¦°Å
+    //ëª¬ìŠ¤í„° ì œê±°
     public void monsterDestroy()
     {
         Destroy(gameObject);
     }
 
-    //¾óÀ½ È¿°ú
+    //ì–¼ìŒ íš¨ê³¼ ->  ë°ë¯¸ì§€ ì²˜ë¦¬ëŠ” takeDamage ì‚¬ìš©í•´ì„œ ì¡°ì ˆí•´ì•¼ë ë“¯
     protected IEnumerator ice_effects()
     {
         Color originalColor = render.color;

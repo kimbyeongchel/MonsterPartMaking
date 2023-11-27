@@ -7,7 +7,7 @@ public class Bossmouse : Enemy
 {
     public CircleCollider2D ccoll;
     public CapsuleCollider2D pcoll;
-    public Vector3 initialPosition = new Vector3(7.23999977f, -3.10665798f, 0f);
+    public Vector3 initialPosition = new Vector3(7.23999977f, -3.10665798f, 0f); // 초기좌표 scene에 따라 다름
 
     // 프리팹 모음
     public GameObject warningBottom;
@@ -26,7 +26,7 @@ public class Bossmouse : Enemy
     // phase 상태 변수, 현재 실행 중인 패턴, noise 범위
     public float phase_state = 0f;
     public Coroutine currentPatternCoroutine = null;
-    float radius = 1f;
+    public float radius = 1f;
 
     //move 함수를 위한 변수
     public bool move_attack = false;
@@ -95,7 +95,7 @@ public class Bossmouse : Enemy
             else if(phase_state == 1)
             {
                 double value = rand.NextDouble();
-                if (value > 0 && value <= 0.7)
+                if (value > 0 && value <= 0.6)
                 {
                     ShootObject();
                 }
@@ -107,19 +107,19 @@ public class Bossmouse : Enemy
             else if (phase_state == 2)
             {
                 double value = rand.NextDouble();
-                if (value > 0 && value <= 0.4)
+                if (value > 0 && value <= 0.3)
                 {
                     //오브젝트 발사
                     ShootObject();
                 }
-                else if (value > 0.4 && value <= 0.8)
+                else if (value > 0.4 && value <= 0.6)
                 {
                     //x축 구르기
                     ani.SetTrigger("goInitial");
                 }
-                else if (value >0.8 && value <= 0.9)
+                else if (value >0.8 && value <= 0.8)
                 {
-                    //noise
+                   // noise
                     ani.SetTrigger("noisePattern");
                 }
                 else
@@ -130,72 +130,6 @@ public class Bossmouse : Enemy
             }
             move_attack = true;
         }
-
-
-        //if (phase_state == 0f) // 도령 상태 : 달리기 및 패턴
-        //{
-        //    if (move_attack)
-        //    {
-        //        ani.SetBool("run", true);
-        //    }
-        //    else
-        //    {
-        //        ShootObject(); // 패턴에 따라 수정 필요
-        //        move_attack = true;
-        //    }
-        //}
-        //else if (phase_state == 1f) // 들쥐 phase 1
-        //{
-        //    if (move_attack)
-        //    {
-        //        ani.SetBool("run", true);
-        //    }
-        //    else
-        //    {
-        //        double value = rand.NextDouble();
-        //        if (value > 0 && value <= 0.7)
-        //        {
-        //            ShootObject();
-        //        }
-        //        else
-        //        {
-        //            ani.SetTrigger("goInitial");
-        //        }
-        //        move_attack = true;
-        //    }
-        //}
-        //else if (phase_state == 2f) // 들쥐 phase 2
-        //{
-        //    if (move_attack)
-        //    {
-        //        ani.SetBool("run", true);
-        //    }
-        //    else
-        //    {
-        //        double value = rand.NextDouble();
-        //        if (value > 0 && value <= 0.4)
-        //        {
-        //            //오브젝트 발사
-        //            ShootObject();
-        //        }
-        //        else if(value > 0.4 && value <= 0.8)
-        //        {
-        //            //x축 구르기
-        //            ani.SetTrigger("goInitial");
-        //        }
-        //        else if(value >0.8 && value <= 0.9)
-        //        {
-        //            //noise
-        //            ani.SetTrigger("noisePattern");
-        //        }
-        //        else
-        //        {
-        //            //updown
-        //            ani.SetTrigger("ready");
-        //        }
-        //        move_attack = true;
-        //    }
-        //}
     }
 
     public void throw_gal() // 한자 날리기
@@ -247,13 +181,15 @@ public class Bossmouse : Enemy
         {
             if (frayHit.collider.CompareTag("ground"))
                 monsterSpeed = -1f * distance;
-            randomMove();
+            else
+                randomMove();
         }
         else if (brayHit.collider != null&&frayHit.collider == null)
         {
             if (brayHit.collider.CompareTag("ground"))
                 monsterSpeed = distance;
-            randomMove();
+            else
+                randomMove();
         }
         else if (frayHit.collider == null && brayHit.collider == null)
         {
@@ -299,12 +235,7 @@ public class Bossmouse : Enemy
         }
     }
 
-    /// <summary>
-    /// ///////////////////// 23/11/27 새벽 4시 여기까지 살펴봄
-    /// </summary>
-    /// <returns></returns>
-
-    public IEnumerator bottomWarning() // state로 넘어가는게 아닌 idleState에서 실행시켜서 해당 코루티 먼저 실행시킨 후에 bottomall로 넘어가게 하면 복잡도가 줄어들듯
+    public IEnumerator bottomWarning() // x - warning
     {
         prefab_instance = Instantiate(warningBottom, warningBottom_pos.position, Quaternion.identity);
         yield return new WaitForSeconds(0.5f);
@@ -314,15 +245,26 @@ public class Bossmouse : Enemy
     //x축 전범위 구르기
     public IEnumerator bottomAll() // x축 전범위 공격
     {
-        float moveDuration = 1.5f;
-        float moveSpeed = 20f;
+        float moveDuration = 1f;
         float exitTime = 0f;
+        bool speedChanged = false;
+        monsterSpeed = 20f;
+        
         if (phase_state == 2)
-            moveSpeed = 30f;
+        {
+            monsterSpeed = 30f;
+        }
+
 
         while (exitTime < moveDuration)
         {
-            rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
+            if (!speedChanged && exitTime >= 0.5f && phase_state == 2)
+            {
+                rb.velocity = Vector2.zero;
+                monsterSpeed *= -1f;
+                speedChanged = true;
+            }
+            rb.velocity = new Vector2(-monsterSpeed, rb.velocity.y);
             exitTime += Time.deltaTime;
             yield return null;
         }
@@ -372,7 +314,7 @@ public class Bossmouse : Enemy
     //초기 속도 계산
     float Calculate_speed(float gravity)
     {
-        return Mathf.Sqrt(2f* 6f * Mathf.Abs(gravity) / Mathf.Pow(Mathf.Sin(80f * Mathf.Deg2Rad), 2f));
+        return Mathf.Sqrt(2f* 6f * Mathf.Abs(gravity) / Mathf.Pow(Mathf.Sin(75f * Mathf.Deg2Rad), 2f));
     }
 
     protected override void OnDrawGizmos() // 원 공격 범위 표시
@@ -392,17 +334,6 @@ public class Bossmouse : Enemy
         }
     }
 
-    //hit를 위한 현재 동작중인 패턴 중단 및 초기화
-    public void pattern_check_stop()
-    {
-        if (currentPatternCoroutine != null)
-        {
-            StopCoroutine(currentPatternCoroutine);
-            currentPatternCoroutine = null; // 현재 코루틴을 멈췄으니 초기화
-            RemovePrefabs(); // 화면상의 모든 저장된 프리팹들 삭제
-        }
-    }
-
     public void RemovePrefabs() // 화면 상의 프리팹들 삭제
     {
         foreach (var prefab in activePrefabs)
@@ -412,22 +343,12 @@ public class Bossmouse : Enemy
         activePrefabs.Clear();
     }
 
-    //들쥐 상태 부터 collider2D를 활성화 시켜서 닿일 때마다 player hp 감소
-    public void SetCollider(int set)
-    {
-        if (set == 0)
-            bColl.enabled = false;
-        else
-            bColl.enabled = true;
-    }
-
     //사망 시 동작하는 함수
     protected override void Die()
     {
-        pattern_check_stop();
+        RemovePrefabs();
         if (phase_state == 0)
         {
-            bColl.enabled = false;
             ani.SetTrigger("phase0_die");
             HP = 400f;
             Health.maxValue = HP;
@@ -449,12 +370,11 @@ public class Bossmouse : Enemy
         phase_state++;
     }
 
-    //일단 충돌 안되는데 나중에 생각하기
-    void OnCollisionEnter2D(Collision2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.CompareTag("Player") && (phase_state == 1 || phase_state == 2))
+        if (other.gameObject.CompareTag("Player") && (phase_state == 1 || phase_state == 2))
         {
-            Debug.Log("충돌");
+            Debug.Log("플레이어와 몬스터가 충돌함.");
         }
     }
 }

@@ -6,18 +6,18 @@ public class doryang_throwObject : MonoBehaviour
 {
     private Transform playerTransform;
     private Rigidbody2D rb;
-    private float coinSpeed = 10f;
+    private float objectSpeed = 10f;
 
     void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         Vector3 targetVector = (playerTransform.position - transform.position).normalized;
-        rb.velocity = targetVector * coinSpeed;
-        Invoke("DestroyCoin", 3f);
+        rb.velocity = targetVector * objectSpeed;
+        Invoke("DestroyObject", 3f);
     }
 
-    void DestroyCoin()
+    void DestroyObject()
     {
         Destroy(gameObject);
     }
@@ -27,7 +27,7 @@ public class doryang_throwObject : MonoBehaviour
         if (other.tag == "Player")
         {
             Debug.Log("player¿¡°Ô coin ¸ÂÃã");
-            DestroyCoin();
+            DestroyObject();
         }
 
     }

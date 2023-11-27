@@ -5,18 +5,20 @@ using UnityEngine;
 public class die_phase2 : StateMachineBehaviour
 {
     Bossmouse mouse;
-    float speed = 5.0f; // 이동 속도
     float step; // 프레임당 이동 거리
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         mouse = GameObject.FindGameObjectWithTag("Bossrat").GetComponent<Bossmouse>();
-        mouse.render.color = new Color(1f, 1f, 1f);
+        mouse.render.color = Color.white;
         mouse.pcoll.enabled = false;
         mouse.ccoll.enabled = false;
-        mouse.transform.position += new Vector3(0f, -0.8f, 0f);
+        mouse.bColl.enabled = false;
+        mouse.transform.position += new Vector3(0f, -0.6f, 0f);
+        mouse.rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         mouse.render.flipX = true;
-        step = speed * Time.deltaTime; // 프레임당 이동 거리
+        mouse.monsterSpeed = 7f;
+        step = mouse.monsterSpeed * Time.deltaTime; // 프레임당 이동 거리
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -24,8 +26,7 @@ public class die_phase2 : StateMachineBehaviour
     {
         mouse.transform.position = Vector3.MoveTowards(mouse.transform.position, new Vector3(-7.15f, mouse.transform.position.y, 0f), step);
 
-        // 초기 위치에 도달하면 원하는 작업 실행
-        if (mouse.transform.position.x == new Vector3(-7.15f, -3.09f, 0f).x)
+        if (mouse.transform.position.x == new Vector3(-7.15f, mouse.transform.position.y, 0f).x)
         { 
             mouse.monsterDestroy();
         }
