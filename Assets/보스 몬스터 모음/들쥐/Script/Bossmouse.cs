@@ -9,7 +9,7 @@ public class Bossmouse : Enemy
     public CapsuleCollider2D pcoll;
     public Vector3 initialPosition = new Vector3(7.23999977f, -3.10665798f, 0f);
 
-    // ÇÁ¸®ÆÕ ¸ğÀ½
+    // í”„ë¦¬íŒ¹ ëª¨ìŒ
     public GameObject warningBottom;
     public GameObject circleWarning;
     public GameObject groundEffect;
@@ -18,27 +18,27 @@ public class Bossmouse : Enemy
     private GameObject prefab_instance;
     public List<GameObject> activePrefabs;
 
-    // ÆĞÅÏ¿¡ »ç¿ëÇÒ µ¥¹ÌÁö ¹× À§Ä¡, ÀçÁú
+    // íŒ¨í„´ì— ì‚¬ìš©í•  ë°ë¯¸ì§€ ë° ìœ„ì¹˜, ì¬ì§ˆ
     public float[] pattern_damage;
     public Transform warningBottom_pos;
     public PhysicsMaterial2D newPhysicsMaterial;
 
-    // phase »óÅÂ º¯¼ö, ÇöÀç ½ÇÇà ÁßÀÎ ÆĞÅÏ, noise ¹üÀ§
+    // phase ìƒíƒœ ë³€ìˆ˜, í˜„ì¬ ì‹¤í–‰ ì¤‘ì¸ íŒ¨í„´, noise ë²”ìœ„
     public float phase_state = 0f;
     public Coroutine currentPatternCoroutine = null;
     float radius = 1f;
 
-    //move ÇÔ¼ö¸¦ À§ÇÑ º¯¼ö
+    //move í•¨ìˆ˜ë¥¼ ìœ„í•œ ë³€ìˆ˜
     public bool move_attack = false;
     public float distance = 3f;
 
-    //ÇÑÀÚ ³¯¸®±â ¹× nail °³¼ö Ã¼Å©
+    //í•œì ë‚ ë¦¬ê¸° ë° nail ê°œìˆ˜ ì²´í¬
     public int check_gal = 0;
 
-    //±¸¸£´Â Áß Ç¥½Ã º¯¼ö
+    //êµ¬ë¥´ëŠ” ì¤‘ í‘œì‹œ ë³€ìˆ˜
     private bool rolling = false;
 
-    //ÃÊ±â ¼³Á¤
+    //ì´ˆê¸° ì„¤ì •
     void Start()
     {
         OnEnable();
@@ -47,37 +47,37 @@ public class Bossmouse : Enemy
         phase_state = 0f;
         check_gal = 0;
         pattern_damage = new float[5];
-        pattern_damage[0] = 10f; // ÇÑÀÚ
-        pattern_damage[1] = 12f; // ¸ñÅ¹
-        pattern_damage[2] = 15f; // ¹ßÅé & ¼ÕÅé ÅëÀÏ
-        pattern_damage[3] = 20f; // noise´Â ¹üÀ§ ¾È¿¡ ÀÖÀ¸¸é Áö¼ÓÀûÀ¸·Î µ¥¹ÌÁö ÀÔ±â
-        pattern_damage[4] = 30f; // xÃà, yÃà, ºÎµúÈ÷´Â µ¥¹ÌÁö => ¸ğµÎ ¸ö¹Ú µ¥¹ÌÁö ÀÌ±â ¶§¹®¿¡ 30À¸·Î ÅëÀÏ -> collider Ãæµ¹ µ¥¹ÌÁö
+        pattern_damage[0] = 10f; // í•œì
+        pattern_damage[1] = 12f; // ëª©íƒ
+        pattern_damage[2] = 15f; // ë°œí†± & ì†í†± í†µì¼
+        pattern_damage[3] = 20f; // noiseëŠ” ë²”ìœ„ ì•ˆì— ìˆìœ¼ë©´ ì§€ì†ì ìœ¼ë¡œ ë°ë¯¸ì§€ ì…ê¸°
+        pattern_damage[4] = 30f; // xì¶•, yì¶•, ë¶€ë”ªíˆëŠ” ë°ë¯¸ì§€ => ëª¨ë‘ ëª¸ë°• ë°ë¯¸ì§€ ì´ê¸° ë•Œë¬¸ì— 30ìœ¼ë¡œ í†µì¼ -> collider ì¶©ëŒ ë°ë¯¸ì§€
 
-        ccoll = this.GetComponent<CircleCollider2D>(); // µéÁãÀÇ °ø »óÅÂÀÏ ¶§ÀÇ Ãæµ¹ Å©±â
-        pcoll = this.GetComponent<CapsuleCollider2D>(); // µéÁã ±âº» »óÅÂÀÏ ¶§ÀÇ Ãæµ¹ Å©±â
+        ccoll = this.GetComponent<CircleCollider2D>(); // ë“¤ì¥ì˜ ê³µ ìƒíƒœì¼ ë•Œì˜ ì¶©ëŒ í¬ê¸°
+        pcoll = this.GetComponent<CapsuleCollider2D>(); // ë“¤ì¥ ê¸°ë³¸ ìƒíƒœì¼ ë•Œì˜ ì¶©ëŒ í¬ê¸°
     }
 
-    // µµ·É -> collider·Î ÀÎÇÑ Ãæµ¹ off, µéÁãºÎÅÍ Ãæµ¹ µ¥¹ÌÁö ON ( pattern_damage[4] = 30f Àû¿ë )
+    // ë„ë ¹ -> colliderë¡œ ì¸í•œ ì¶©ëŒ off, ë“¤ì¥ë¶€í„° ì¶©ëŒ ë°ë¯¸ì§€ ON ( pattern_damage[4] = 30f ì ìš© )
 
-    //update·Î ÁÂ¿ìÆÇ´Ü ¹× »ç¸Á »óÅÂ È®ÀÎ
+    //updateë¡œ ì¢Œìš°íŒë‹¨ ë° ì‚¬ë§ ìƒíƒœ í™•ì¸
     void Update()
     {
         if (dead) return;
 
-        if(!rolling) // ±¸¸£´Â ÁßÀÌ¸é ¹æÇâ ¹Ù²îÁö ¾Êµµ·Ï ¼³Á¤
+        if(!rolling) // êµ¬ë¥´ëŠ” ì¤‘ì´ë©´ ë°©í–¥ ë°”ë€Œì§€ ì•Šë„ë¡ ì„¤ì •
             DirectionEnemy();
 
         Debug.DrawRay(transform.position + new Vector3(1f, 0f, 0f), Vector2.right * (distance + 0.5f), Color.red);
         Debug.DrawRay(transform.position + new Vector3(-1f, 0f, 0f), Vector2.left * (distance + 0.5f), Color.green);
     }
 
-    // µéÁã ³»ÀÇ 2->3 phase º¯°æÀ» À§ÇÑ »ö º¯°æ ( RED )
+    // ë“¤ì¥ ë‚´ì˜ 2->3 phase ë³€ê²½ì„ ìœ„í•œ ìƒ‰ ë³€ê²½ ( RED )
     void ChangeColor()
     {
         render.color = new Color(0.83f, 0.37f, 0.37f, 1f);
     }
 
-    //phase¿¡ µû¸¥ ±âº» µ¿ÀÛ ¹æ½Ä °áÁ¤ ÇÔ¼ö
+    //phaseì— ë”°ë¥¸ ê¸°ë³¸ ë™ì‘ ë°©ì‹ ê²°ì • í•¨ìˆ˜
     public void IdleState()
     {
         
@@ -109,12 +109,12 @@ public class Bossmouse : Enemy
                 double value = rand.NextDouble();
                 if (value > 0 && value <= 0.4)
                 {
-                    //¿ÀºêÁ§Æ® ¹ß»ç
+                    //ì˜¤ë¸Œì íŠ¸ ë°œì‚¬
                     ShootObject();
                 }
                 else if (value > 0.4 && value <= 0.8)
                 {
-                    //xÃà ±¸¸£±â
+                    //xì¶• êµ¬ë¥´ê¸°
                     ani.SetTrigger("goInitial");
                 }
                 else if (value >0.8 && value <= 0.9)
@@ -132,7 +132,7 @@ public class Bossmouse : Enemy
         }
 
 
-        //if (phase_state == 0f) // µµ·É »óÅÂ : ´Ş¸®±â ¹× ÆĞÅÏ
+        //if (phase_state == 0f) // ë„ë ¹ ìƒíƒœ : ë‹¬ë¦¬ê¸° ë° íŒ¨í„´
         //{
         //    if (move_attack)
         //    {
@@ -140,11 +140,11 @@ public class Bossmouse : Enemy
         //    }
         //    else
         //    {
-        //        ShootObject(); // ÆĞÅÏ¿¡ µû¶ó ¼öÁ¤ ÇÊ¿ä
+        //        ShootObject(); // íŒ¨í„´ì— ë”°ë¼ ìˆ˜ì • í•„ìš”
         //        move_attack = true;
         //    }
         //}
-        //else if (phase_state == 1f) // µéÁã phase 1
+        //else if (phase_state == 1f) // ë“¤ì¥ phase 1
         //{
         //    if (move_attack)
         //    {
@@ -164,7 +164,7 @@ public class Bossmouse : Enemy
         //        move_attack = true;
         //    }
         //}
-        //else if (phase_state == 2f) // µéÁã phase 2
+        //else if (phase_state == 2f) // ë“¤ì¥ phase 2
         //{
         //    if (move_attack)
         //    {
@@ -175,12 +175,12 @@ public class Bossmouse : Enemy
         //        double value = rand.NextDouble();
         //        if (value > 0 && value <= 0.4)
         //        {
-        //            //¿ÀºêÁ§Æ® ¹ß»ç
+        //            //ì˜¤ë¸Œì íŠ¸ ë°œì‚¬
         //            ShootObject();
         //        }
         //        else if(value > 0.4 && value <= 0.8)
         //        {
-        //            //xÃà ±¸¸£±â
+        //            //xì¶• êµ¬ë¥´ê¸°
         //            ani.SetTrigger("goInitial");
         //        }
         //        else if(value >0.8 && value <= 0.9)
@@ -198,7 +198,7 @@ public class Bossmouse : Enemy
         //}
     }
 
-    public void throw_gal() // ÇÑÀÚ ³¯¸®±â
+    public void throw_gal() // í•œì ë‚ ë¦¬ê¸°
     {
         prefab_instance = Instantiate(throwPrefab[0], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
         check_gal++;
@@ -206,12 +206,12 @@ public class Bossmouse : Enemy
             ani.SetTrigger("endThrow");
     }
 
-    public void throw_mok() // ¸ñÅ¹ ´øÁö±â 
+    public void throw_mok() // ëª©íƒ ë˜ì§€ê¸° 
     {
         prefab_instance = Instantiate(throwPrefab[1], transform.position - new Vector3(0f, 0.55f, 0f), Quaternion.identity);
     }
 
-    public void throw_nail() // ¼ÕÅé ³¯¸®±â
+    public void throw_nail() // ì†í†± ë‚ ë¦¬ê¸°
     {
         int cycleTime = 4;
         
@@ -228,7 +228,7 @@ public class Bossmouse : Enemy
         }
     }
 
-    //ÁÖÀ§ °Å¸®¿¡¼­ rayCast ¸·Èù »óÅÂ¸¦ ÀÎ½ÄÇØ¼­ ¹«ÀÛÀ§·Î ÁÂ¿ì ¼³Á¤ÇÏ´Â º¯¼ö. Æ¯Á¤ °Å¸®¸¦ ÀÌµ¿ÇÏµµ·Ï Æ¯Á¤ÇÔ..
+    //ì£¼ìœ„ ê±°ë¦¬ì—ì„œ rayCast ë§‰íŒ ìƒíƒœë¥¼ ì¸ì‹í•´ì„œ ë¬´ì‘ìœ„ë¡œ ì¢Œìš° ì„¤ì •í•˜ëŠ” ë³€ìˆ˜. íŠ¹ì • ê±°ë¦¬ë¥¼ ì´ë™í•˜ë„ë¡ íŠ¹ì •í•¨..
     public void Check_distance()
     {
         if (phase_state == 0)
@@ -268,7 +268,7 @@ public class Bossmouse : Enemy
         }
     }
 
-    void randomMove() // ¹«ÀÛÀ§ ÀÌµ¿
+    void randomMove() // ë¬´ì‘ìœ„ ì´ë™
     {
         double value = rand.NextDouble();
         if (value > 0.5)
@@ -281,7 +281,7 @@ public class Bossmouse : Enemy
         }
     }
 
-    public void ShootObject() // Åõ»çÃ¼ ¹ß»ç
+    public void ShootObject() // íˆ¬ì‚¬ì²´ ë°œì‚¬
     {
         switch(phase_state)
         {
@@ -300,19 +300,19 @@ public class Bossmouse : Enemy
     }
 
     /// <summary>
-    /// ///////////////////// 23/11/27 »õº® 4½Ã ¿©±â±îÁö »ìÆìº½
+    /// ///////////////////// 23/11/27 ìƒˆë²½ 4ì‹œ ì—¬ê¸°ê¹Œì§€ ì‚´í´ë´„
     /// </summary>
     /// <returns></returns>
 
-    public IEnumerator bottomWarning()
+    public IEnumerator bottomWarning() // stateë¡œ ë„˜ì–´ê°€ëŠ”ê²Œ ì•„ë‹Œ idleStateì—ì„œ ì‹¤í–‰ì‹œì¼œì„œ í•´ë‹¹ ì½”ë£¨í‹° ë¨¼ì € ì‹¤í–‰ì‹œí‚¨ í›„ì— bottomallë¡œ ë„˜ì–´ê°€ê²Œ í•˜ë©´ ë³µì¡ë„ê°€ ì¤„ì–´ë“¤ë“¯
     {
         prefab_instance = Instantiate(warningBottom, warningBottom_pos.position, Quaternion.identity);
         yield return new WaitForSeconds(0.5f);
         Destroy(prefab_instance);
     }
    
-    //xÃà Àü¹üÀ§ ±¸¸£±â
-    public IEnumerator bottomAll() // xÃà Àü¹üÀ§ °ø°İ
+    //xì¶• ì „ë²”ìœ„ êµ¬ë¥´ê¸°
+    public IEnumerator bottomAll() // xì¶• ì „ë²”ìœ„ ê³µê²©
     {
         float moveDuration = 1.5f;
         float moveSpeed = 20f;
@@ -332,8 +332,8 @@ public class Bossmouse : Enemy
         ani.SetTrigger("bottom_all");
     }
 
-    //¼ÒÀ½ °ø°İ
-    public IEnumerator warningCircle() // ¿ø °ø°İ ÁÖÀÇ + µ¥¹ÌÁö ÀÎ½ÄÀº ¾Ö´Ï¸ŞÀÌ¼Ç¿¡ µ¥¹ÌÁö ÇÔ¼ö FInd Ãß°¡
+    //ì†ŒìŒ ê³µê²©
+    public IEnumerator warningCircle() // ì› ê³µê²© ì£¼ì˜ + ë°ë¯¸ì§€ ì¸ì‹ì€ ì• ë‹ˆë©”ì´ì…˜ì— ë°ë¯¸ì§€ í•¨ìˆ˜ FInd ì¶”ê°€
     {
         prefab_instance = Instantiate(circleWarning, transform.position, Quaternion.identity);
         activePrefabs.Add(prefab_instance);
@@ -345,11 +345,11 @@ public class Bossmouse : Enemy
 
     public void ChangeMaterial(PhysicsMaterial2D material)
     {
-        // Rigidbody2DÀÇ sharedMaterial ¼Ó¼ºÀ» »ç¿ëÇÏ¿© ¹°¸® ÀçÁú º¯°æ
+        // Rigidbody2Dì˜ sharedMaterial ì†ì„±ì„ ì‚¬ìš©í•˜ì—¬ ë¬¼ë¦¬ ì¬ì§ˆ ë³€ê²½
         rb.sharedMaterial = material;
     }
 
-    //yÃà ³»·ÁÂï±â ( À§¿¡ ÃµÀåÀÌ ¾ø´Â »óÅÂÀÌ¹Ç·Î ¸ÊÀ» Æ÷¹°¼±À¸·Î ¹Ù¿î½º ÇÔ¼ö
+    //yì¶• ë‚´ë ¤ì°ê¸° ( ìœ„ì— ì²œì¥ì´ ì—†ëŠ” ìƒíƒœì´ë¯€ë¡œ ë§µì„ í¬ë¬¼ì„ ìœ¼ë¡œ ë°”ìš´ìŠ¤ í•¨ìˆ˜
     public IEnumerator pattern_updown()
     {
         bool isRight = target.position.x > transform.position.x;
@@ -369,19 +369,19 @@ public class Bossmouse : Enemy
         rb.gravityScale = 5* gravityScale;
     }
 
-    //ÃÊ±â ¼Óµµ °è»ê
+    //ì´ˆê¸° ì†ë„ ê³„ì‚°
     float Calculate_speed(float gravity)
     {
         return Mathf.Sqrt(2f* 6f * Mathf.Abs(gravity) / Mathf.Pow(Mathf.Sin(80f * Mathf.Deg2Rad), 2f));
     }
 
-    protected override void OnDrawGizmos() // ¿ø °ø°İ ¹üÀ§ Ç¥½Ã
+    protected override void OnDrawGizmos() // ì› ê³µê²© ë²”ìœ„ í‘œì‹œ
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, radius);
     }
 
-    public override void FindAnd() // Noise Àü¿ë ¹üÀ§ ¸¸µé±â ¹× µ¥¹ÌÁö ÀÔÈ÷±â
+    public override void FindAnd() // Noise ì „ìš© ë²”ìœ„ ë§Œë“¤ê¸° ë° ë°ë¯¸ì§€ ì…íˆê¸°
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
 
@@ -392,18 +392,18 @@ public class Bossmouse : Enemy
         }
     }
 
-    //hit¸¦ À§ÇÑ ÇöÀç µ¿ÀÛÁßÀÎ ÆĞÅÏ Áß´Ü ¹× ÃÊ±âÈ­
+    //hitë¥¼ ìœ„í•œ í˜„ì¬ ë™ì‘ì¤‘ì¸ íŒ¨í„´ ì¤‘ë‹¨ ë° ì´ˆê¸°í™”
     public void pattern_check_stop()
     {
         if (currentPatternCoroutine != null)
         {
             StopCoroutine(currentPatternCoroutine);
-            currentPatternCoroutine = null; // ÇöÀç ÄÚ·çÆ¾À» ¸ØÃèÀ¸´Ï ÃÊ±âÈ­
-            RemovePrefabs(); // È­¸é»óÀÇ ¸ğµç ÀúÀåµÈ ÇÁ¸®ÆÕµé »èÁ¦
+            currentPatternCoroutine = null; // í˜„ì¬ ì½”ë£¨í‹´ì„ ë©ˆì·„ìœ¼ë‹ˆ ì´ˆê¸°í™”
+            RemovePrefabs(); // í™”ë©´ìƒì˜ ëª¨ë“  ì €ì¥ëœ í”„ë¦¬íŒ¹ë“¤ ì‚­ì œ
         }
     }
 
-    public void RemovePrefabs() // È­¸é »óÀÇ ÇÁ¸®ÆÕµé »èÁ¦
+    public void RemovePrefabs() // í™”ë©´ ìƒì˜ í”„ë¦¬íŒ¹ë“¤ ì‚­ì œ
     {
         foreach (var prefab in activePrefabs)
         {
@@ -412,7 +412,7 @@ public class Bossmouse : Enemy
         activePrefabs.Clear();
     }
 
-    //µéÁã »óÅÂ ºÎÅÍ collider2D¸¦ È°¼ºÈ­ ½ÃÄÑ¼­ ´êÀÏ ¶§¸¶´Ù player hp °¨¼Ò
+    //ë“¤ì¥ ìƒíƒœ ë¶€í„° collider2Dë¥¼ í™œì„±í™” ì‹œì¼œì„œ ë‹¿ì¼ ë•Œë§ˆë‹¤ player hp ê°ì†Œ
     public void SetCollider(int set)
     {
         if (set == 0)
@@ -421,7 +421,7 @@ public class Bossmouse : Enemy
             bColl.enabled = true;
     }
 
-    //»ç¸Á ½Ã µ¿ÀÛÇÏ´Â ÇÔ¼ö
+    //ì‚¬ë§ ì‹œ ë™ì‘í•˜ëŠ” í•¨ìˆ˜
     protected override void Die()
     {
         pattern_check_stop();
@@ -449,12 +449,12 @@ public class Bossmouse : Enemy
         phase_state++;
     }
 
-    //ÀÏ´Ü Ãæµ¹ ¾ÈµÇ´Âµ¥ ³ªÁß¿¡ »ı°¢ÇÏ±â
+    //ì¼ë‹¨ ì¶©ëŒ ì•ˆë˜ëŠ”ë° ë‚˜ì¤‘ì— ìƒê°í•˜ê¸°
     void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.CompareTag("Player") && (phase_state == 1 || phase_state == 2))
         {
-            Debug.Log("Ãæµ¹");
+            Debug.Log("ì¶©ëŒ");
         }
     }
 }
