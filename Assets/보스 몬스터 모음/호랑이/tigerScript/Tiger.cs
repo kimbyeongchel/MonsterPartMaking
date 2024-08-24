@@ -113,7 +113,21 @@ public class Tiger : Enemy
         foreach (Collider2D collider in collider2Ds)
         {
             if (collider.tag == "Player")
-                UnityEngine.Debug.Log(collider.tag + posIndex + "!!");
+            {
+                TargetControl player = GameObject.FindGameObjectWithTag("Player").GetComponent<TargetControl>();
+                if (posIndex == 0)
+                {
+                    player.Hit(10);
+                }
+                else if (posIndex == 1)
+                {
+                    player.Hit(20);
+                }
+                else if (posIndex == 2)
+                {
+                    player.Hit(30);
+                }
+            }
         }
     }
 }

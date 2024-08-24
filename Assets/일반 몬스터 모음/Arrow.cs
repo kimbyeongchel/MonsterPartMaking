@@ -40,7 +40,8 @@ public class Arrow : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            Debug.Log("player¿¡°Ô arrow ¸ÂÃã");
+            TargetControl player = GameObject.FindGameObjectWithTag("Player").GetComponent<TargetControl>();
+            player.Hit(10);
             DestroyArrow();
         }
         

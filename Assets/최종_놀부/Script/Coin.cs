@@ -26,7 +26,8 @@ public class Coin : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("player¿¡°Ô coin ¸ÂÃã");
+            TargetControl player = GameObject.FindGameObjectWithTag("Player").GetComponent<TargetControl>();
+            player.Hit(10);
             DestroyCoin();
         }
 

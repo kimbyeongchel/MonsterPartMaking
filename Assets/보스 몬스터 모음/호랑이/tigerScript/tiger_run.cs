@@ -8,7 +8,7 @@ public class tiger_run : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        tiger = GameObject.FindGameObjectWithTag("Tiger").GetComponent<Tiger>();
+        tiger = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Tiger>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

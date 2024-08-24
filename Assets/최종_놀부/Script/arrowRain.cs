@@ -24,7 +24,10 @@ public class arrowRain : MonoBehaviour
         foreach (Collider2D collider in collider2Ds)
         {
             if (collider.tag == "Player")
-                UnityEngine.Debug.Log(collider.tag);
+            {
+                TargetControl player = GameObject.FindGameObjectWithTag("Player").GetComponent<TargetControl>();
+                player.Hit(30);
+            }
         }
     }
 }

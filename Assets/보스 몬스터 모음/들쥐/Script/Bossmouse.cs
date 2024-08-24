@@ -19,7 +19,7 @@ public class Bossmouse : Enemy
     public List<GameObject> activePrefabs;
 
     // 패턴에 사용할 데미지 및 위치, 재질
-    public float[] pattern_damage;
+    public int[] pattern_damage;
     public Transform warningBottom_pos;
     public PhysicsMaterial2D newPhysicsMaterial;
 
@@ -46,15 +46,23 @@ public class Bossmouse : Enemy
         rolling = false;
         phase_state = 0f;
         check_gal = 0;
-        pattern_damage = new float[5];
-        pattern_damage[0] = 10f; // 한자
-        pattern_damage[1] = 12f; // 목탁
-        pattern_damage[2] = 15f; // 발톱 & 손톱 통일
-        pattern_damage[3] = 20f; // noise는 범위 안에 있으면 지속적으로 데미지 입기
-        pattern_damage[4] = 30f; // x축, y축, 부딪히는 데미지 => 모두 몸박 데미지 이기 때문에 30으로 통일 -> collider 충돌 데미지
+        pattern_damage = new int[5];
+        pattern_damage[0] = 10; // 한자
+        pattern_damage[1] = 12; // 목탁
+        pattern_damage[2] = 15; // 발톱 & 손톱 통일
+        pattern_damage[3] = 20; // noise는 범위 안에 있으면 지속적으로 데미지 입기
+        pattern_damage[4] = 30; // x축, y축, 부딪히는 데미지 => 모두 몸박 데미지 이기 때문에 30으로 통일 -> collider 충돌 데미지
 
         ccoll = this.GetComponent<CircleCollider2D>(); // 들쥐의 공 상태일 때의 충돌 크기
         pcoll = this.GetComponent<CapsuleCollider2D>(); // 들쥐 기본 상태일 때의 충돌 크기
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        HP = 250f;
+        Health.maxValue = HP;
+        Health.value = HP;
     }
 
     // 도령 -> collider로 인한 충돌 off, 들쥐부터 충돌 데미지 ON ( pattern_damage[4] = 30f 적용 )
@@ -75,6 +83,7 @@ public class Bossmouse : Enemy
     void ChangeColor()
     {
         render.color = new Color(0.83f, 0.37f, 0.37f, 1f);
+        originalColor = render.color;
     }
 
     //phase에 따른 기본 동작 방식 결정 함수
@@ -330,7 +339,10 @@ public class Bossmouse : Enemy
         foreach (Collider2D col in colliders)
         {
             if (col.tag == "Player")
-                UnityEngine.Debug.Log(col.tag);
+            {
+                TargetControl player = GameObject.FindGameObjectWithTag("Player").GetComponent<TargetControl>();
+                player.Hit(pattern_damage[3]);
+            }
         }
     }
 
@@ -374,7 +386,8 @@ public class Bossmouse : Enemy
     {
         if (other.gameObject.CompareTag("Player") && (phase_state == 1 || phase_state == 2))
         {
-            Debug.Log("플레이어와 몬스터가 충돌함.");
+            TargetControl player = GameObject.FindGameObjectWithTag("Player").GetComponent<TargetControl>();
+            player.Hit(pattern_damage[4]);
         }
     }
 }

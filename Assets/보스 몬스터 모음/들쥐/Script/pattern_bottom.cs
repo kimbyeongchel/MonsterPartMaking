@@ -7,7 +7,7 @@ public class pattern_bottom : StateMachineBehaviour
     Bossmouse mouse;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        mouse = GameObject.FindGameObjectWithTag("Bossrat").GetComponent<Bossmouse>();
+        mouse = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Bossmouse>();
         mouse.StartCoroutine(mouse.bottomAll());
         mouse.pcoll.enabled = false;
         mouse.ccoll.enabled = true;

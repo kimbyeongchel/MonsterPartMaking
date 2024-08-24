@@ -8,16 +8,16 @@ public class nail : MonoBehaviour
     private Rigidbody2D rb;
     private float nailSpeed = 10f;
     private Bossmouse mouse;
-    private float damage;
+    private int damage;
 
     void Start()
     {
-        mouse = GameObject.FindGameObjectWithTag("Bossrat").GetComponent<Bossmouse>();
+        mouse = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Bossmouse>();
         damage = mouse.pattern_damage[2];
         if (mouse.phase_state == 2)
         {
             nailSpeed = 15f;
-            damage = mouse.pattern_damage[2] + 10f;
+            damage = mouse.pattern_damage[2] + 10;
         }
        
         target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -40,7 +40,8 @@ public class nail : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("player¿¡°Ô coin ¸ÂÃã");
+            TargetControl player = GameObject.FindGameObjectWithTag("Player").GetComponent<TargetControl>();
+            player.Hit(damage);
             DestroyNail();
         }
 

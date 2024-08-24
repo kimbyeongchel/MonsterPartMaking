@@ -7,6 +7,7 @@ public class doryang_throwObject : MonoBehaviour
     private Transform playerTransform;
     private Rigidbody2D rb;
     private float objectSpeed = 10f;
+    public int damage;
 
     void Start()
     {
@@ -26,7 +27,8 @@ public class doryang_throwObject : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("player¿¡°Ô coin ¸ÂÃã");
+            TargetControl player = GameObject.FindGameObjectWithTag("Player").GetComponent<TargetControl>();
+            player.Hit(damage);
             DestroyObject();
         }
 

@@ -9,7 +9,7 @@ public class bottom_rollback : StateMachineBehaviour
     
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        mouse = GameObject.FindGameObjectWithTag("Bossrat").GetComponent<Bossmouse>();
+        mouse = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Bossmouse>();
         mouse.monsterSpeed = 8f;
         step = mouse.monsterSpeed * Time.deltaTime;
     }

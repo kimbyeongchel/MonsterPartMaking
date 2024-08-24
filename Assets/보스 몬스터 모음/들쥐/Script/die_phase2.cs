@@ -9,7 +9,7 @@ public class die_phase2 : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        mouse = GameObject.FindGameObjectWithTag("Bossrat").GetComponent<Bossmouse>();
+        mouse = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Bossmouse>();
         mouse.render.color = Color.white;
         mouse.pcoll.enabled = false;
         mouse.ccoll.enabled = false;
@@ -17,7 +17,7 @@ public class die_phase2 : StateMachineBehaviour
         mouse.transform.position += new Vector3(0f, -0.6f, 0f);
         mouse.rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         mouse.render.flipX = true;
-        mouse.monsterSpeed = 7f;
+        mouse.monsterSpeed = 4f;
         step = mouse.monsterSpeed * Time.deltaTime; // 프레임당 이동 거리
     }
 

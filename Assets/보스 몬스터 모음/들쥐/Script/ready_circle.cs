@@ -11,7 +11,7 @@ public class ready_circle : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        mouse = GameObject.FindGameObjectWithTag("Bossrat").GetComponent<Bossmouse>();
+        mouse = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Bossmouse>();
         currentTime = 0f;
         mouse.monsterSpeed = 6f;
         step = mouse.monsterSpeed * Time.deltaTime; // 프레임당 이동 거리
